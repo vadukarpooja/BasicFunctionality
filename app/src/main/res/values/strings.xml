@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ApiCallDemo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="color_list">ColorList</string>
+    <string name="red">red</string>
+</resources>
