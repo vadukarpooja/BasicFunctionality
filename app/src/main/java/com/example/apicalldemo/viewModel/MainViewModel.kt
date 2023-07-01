@@ -28,9 +28,6 @@ class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewMo
     val res: LiveData<Resource<ResponseClass>>
         get() = _res
 
-    /*init {
-        getColorList()
-    }*/
 
      fun getColorList() = viewModelScope.launch {
         _res.postValue(Resource.loading(null))
@@ -49,21 +46,9 @@ class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewMo
         userRepo.insert(colorList)
     }
 
-    fun getAllNotes(): LiveData<List<ColorsModel>> {
+    fun getAllNotes() :LiveData<List<ColorsModel>>{
         return allNotes
     }
-
-    /*var colorList:List<ColorsModel> = listOf()
-    userRepo.getAllColorList().observeForever {
-        if (it!= null) {
-            Log.e(javaClass.simpleName, "getOfflineColorList: $it", )
-            colorList = it
-            Log.e(javaClass.simpleName, "colorList: $colorList", )
-
-        }
-    }
-    return colorList*/
-
 
 }
 
