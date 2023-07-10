@@ -17,6 +17,7 @@ import com.example.apicalldemo.databinding.FragmentColorListBinding
 import com.example.apicalldemo.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -54,22 +55,18 @@ class ColorListFragment : Fragment() {
         }*/
 
         if (networkHelper.isNetworkConnected()) {
-            Log.e(javaClass.simpleName, "onLine: " )
+            Log.e(javaClass.simpleName, "onLine: ")
             viewModel.getColorList()
             onLineList()
-            }
-        else{
+        } else {
             offLineList()
-            Log.e(javaClass.simpleName, "offline", )
+            Log.e(javaClass.simpleName, "offline")
         }
 
     }
 
 
-
-
-
-     private fun onLineList() {
+    private fun onLineList() {
         viewModel.res.observe(requireActivity(), Observer {
             Log.e(javaClass.simpleName, "observe: $it")
             when (it.status) {

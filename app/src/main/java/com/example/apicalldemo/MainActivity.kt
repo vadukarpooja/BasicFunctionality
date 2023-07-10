@@ -21,7 +21,9 @@ class MainActivity() : AppCompatActivity() {
 
     private val viewModel :MainViewModel by viewModels()
     private lateinit var adapter: ColorListAdapter
-
+    lateinit var car:Car
+    lateinit var car2:Car2
+    lateinit var engin: Engin
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -30,13 +32,13 @@ class MainActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        /*car = Car()
-        engin = Engin()
+        car = Car()
+        engin = Engin()//
         car2 = Car2(engin)
 
 
         car.start("car")
-        car2.start("car")*/
+        car2.start("car")
 
     }
 

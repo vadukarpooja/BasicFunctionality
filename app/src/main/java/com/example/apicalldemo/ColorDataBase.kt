@@ -7,9 +7,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.apicalldemo.models.ColorsModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-@Database(entities = [ColorsModel::class], version = 6)
-abstract class ColorDataBase:RoomDatabase() {
+@Database(entities = [ColorsModel::class], version = 7)
+abstract class ColorDataBase : RoomDatabase() {
     abstract fun colorDao(): ColorDao
 
 
@@ -35,7 +36,7 @@ abstract class ColorDataBase:RoomDatabase() {
         private val roomCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                Log.e(javaClass.simpleName, ": $db", )
+                Log.e(javaClass.simpleName, ": $db")
                 populateDatabase(instance!!)
             }
         }
@@ -43,10 +44,38 @@ abstract class ColorDataBase:RoomDatabase() {
         private fun populateDatabase(db: ColorDataBase) {
             val colorDao = db.colorDao()
             subscribeOnBackground {
-                colorDao.insert(ColorsModel(id ="0", name = "color1", year = "2000", color = "#ffff"))
-                colorDao.insert(ColorsModel(id ="0", name = "color2", year = "2001", color = "#0000"))
-                colorDao.insert(ColorsModel(id ="0", name = "color3", year = "2002", color = "#0000"))
-                colorDao.insert((ColorsModel(id ="0", name = "color4", year = "2003", color = "#ffff")))
+                colorDao.insert(
+                    ColorsModel(
+                        id = "0",
+                        name = "color1",
+                        year = "2000",
+                        color = "#98B2D1"
+                    )
+                )
+                colorDao.insert(
+                    ColorsModel(
+                        id = "0",
+                        name = "color2",
+                        year = "2001",
+                        color = "#C74375"
+                    )
+                )
+                colorDao.insert(
+                    ColorsModel(
+                        id = "0",
+                        name = "color3",
+                        year = "2002",
+                        color = "#C74375"
+                    )
+                )
+                colorDao.insert(
+                    (ColorsModel(
+                        id = "0",
+                        name = "color4",
+                        year = "2003",
+                        color = "#C74375"
+                    ))
+                )
             }
         }
     }

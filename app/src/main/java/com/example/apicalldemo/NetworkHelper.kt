@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class NetworkHelper constructor(val context: Context) {
+class NetworkHelper  constructor(@ApplicationContext val  context: Context) {
 
     fun isNetworkConnected(): Boolean {
         var result = false
