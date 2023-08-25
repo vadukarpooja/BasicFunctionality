@@ -30,7 +30,7 @@ class ChatConnectActivity : AppCompatActivity() {
 
         binding.edtName.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
 
-            if (id == EditorInfo.IME_ACTION_GO || id == EditorInfo.IME_NULL) {
+            if (id == R.id.login || id == EditorInfo.IME_NULL) {
                 attemptLogin()
                 return@OnEditorActionListener true
             }
@@ -38,22 +38,22 @@ class ChatConnectActivity : AppCompatActivity() {
         })
 
 
-        binding.btnConnect.setOnClickListener { attemptLogin() }
+        binding.btnConnect.setOnClickListener {
+            attemptLogin()
+        }
         mSocket!!.on("login", onLogin)
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mSocket!!.disconnect()
         mSocket!!.off("login",onLogin)
     }
 
     private val onLogin = Emitter.Listener { args ->
 
         val data = args[0] as JSONObject
-        val numUsers: Int
-        numUsers = try {
+        val numUsers: Int = try {
             data.getInt("numUsers")
         } catch (e: JSONException) {
             return@Listener
