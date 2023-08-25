@@ -13,10 +13,32 @@
         <action
             android:id="@+id/action_splashFragment_to_colorListFragment"
             app:destination="@id/colorListFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_mapFragment2"
+            app:destination="@id/mapFragment2" />
+        <action
+            android:id="@+id/action_splashFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/colorListFragment"
         android:name="com.example.apicalldemo.ColorListFragment"
         android:label="fragment_color_list"
-        tools:layout="@layout/fragment_color_list" />
+        tools:layout="@layout/fragment_color_list">
+
+        <action
+            android:id="@+id/action_colorListFragment_to_mapFragment2"
+            app:destination="@id/mapFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment2"
+        android:name="com.example.apicalldemo.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.apicalldemo.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+
 </navigation>

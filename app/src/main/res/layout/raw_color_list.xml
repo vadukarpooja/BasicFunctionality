@@ -40,4 +40,5 @@
       app:layout_constraintTop_toTopOf="@+id/colorName"
       app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toEndOf="@id/colorName"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

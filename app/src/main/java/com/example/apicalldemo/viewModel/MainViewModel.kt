@@ -1,27 +1,28 @@
 package com.example.apicalldemo.viewModel
 
-import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apicalldemo.Resource
 import com.example.apicalldemo.ResponseClass
+import com.example.apicalldemo.api.RetrofitInstance
 import com.example.apicalldemo.models.ColorsModel
+import com.example.apicalldemo.models.ColorsModel1
 import com.example.apicalldemo.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewModel() {
     private val _res = MutableLiveData<Resource<ResponseClass>>()
+    var list = MutableLiveData<List<ColorsModel>>()
     private val allNotes = userRepo.getAllNotes()
 
 
@@ -49,6 +50,25 @@ class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewMo
     fun getAllNotes() :LiveData<List<ColorsModel>>{
         return allNotes
     }
+    fun getPopularColor() {
+        RetrofitInstance.api.getMovieList().enqueue(object : Callback<ResponseClass>{
+            override fun onResponse(call: Call<ResponseClass>, response: Response<ResponseClass>) {
+              if(response.isSuccessful){
+                  if (response.body()!=null){
+                      list.value = response.body()!!.data
+                      Log.e(javaClass.simpleName, "onResponse: "+response.body()!!.data)
+                  }
 
+               }
+            }
+            override fun onFailure(call: Call<ResponseClass>, t: Throwable) {
+                Log.e(javaClass.simpleName,t.message.toString())
+            }
+        })
+    }
+
+    fun observeColorLiveData() : MutableLiveData<List<ColorsModel>> {
+        return list
+    }
 }
 

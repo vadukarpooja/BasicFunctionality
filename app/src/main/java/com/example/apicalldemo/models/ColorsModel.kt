@@ -23,3 +23,11 @@ data class ColorsModel(
     @SerializedName("color")
     @Expose
     val color:String)
+
+
+
+data class ColorsModel1(
+    val id:String= "",
+    val name:String= "",
+    val year:String,
+    val color:String)

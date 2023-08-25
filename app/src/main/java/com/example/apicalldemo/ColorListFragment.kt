@@ -1,9 +1,5 @@
 package com.example.apicalldemo
 
-import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,13 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.apicalldemo.adapter.ColorListAdapter
 import com.example.apicalldemo.databinding.FragmentColorListBinding
+import com.example.apicalldemo.models.ColorsModel
 import com.example.apicalldemo.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -26,6 +32,7 @@ class ColorListFragment : Fragment() {
     private lateinit var adapter: ColorListAdapter
     lateinit var binding: FragmentColorListBinding
     lateinit var networkHelper: NetworkHelper
+    var url:String ="https://reqres.in/api/unknown"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +55,9 @@ class ColorListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
-        adapter = ColorListAdapter(arrayListOf())
+        adapter = ColorListAdapter(arrayListOf()) {
+
+        }
         binding.rvEmployees.adapter = adapter
         /*res.data?.let { it1 ->
             adapter = ColorListAdapter(it1)
@@ -56,8 +65,11 @@ class ColorListFragment : Fragment() {
 
         if (networkHelper.isNetworkConnected()) {
             Log.e(javaClass.simpleName, "onLine: ")
-            viewModel.getColorList()
-            onLineList()
+            viewModel.getPopularColor()
+            getListUsingOlyMvvm(this)
+            //viewModel.getColorList()
+            //volleyApiList()
+            //onLineList()
         } else {
             offLineList()
             Log.e(javaClass.simpleName, "offline")
@@ -82,17 +94,17 @@ class ColorListFragment : Fragment() {
                         colorsModel.data.let { res ->
                             Log.e(javaClass.simpleName, "onViewCreated: you are online")
                             Log.e(javaClass.simpleName, "res: $res")
-                            adapter = ColorListAdapter(res)
+                            adapter = ColorListAdapter(res) {
+                                findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
+                            }
                             binding.rvEmployees.adapter = adapter
                         }
                     }
                 }
-
                 Status.LOADING -> {
                     binding.progress.visibility = View.VISIBLE
                     binding.rvEmployees.visibility = View.GONE
                 }
-
                 Status.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.rvEmployees.visibility = View.VISIBLE
@@ -104,14 +116,65 @@ class ColorListFragment : Fragment() {
         })
     }
 
-    private fun offLineList() {
+    private fun  offLineList() {
         viewModel.getAllNotes().observe(viewLifecycleOwner) {
-            adapter = ColorListAdapter(it)
+            adapter = ColorListAdapter(it as ArrayList<ColorsModel>) {
+                findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
+            }
             binding.rvEmployees.adapter = adapter
         }
 
     }
 
+    private fun volleyApiList(){
+        val list = ArrayList<ColorsModel>()
+        val queue:RequestQueue = Volley.newRequestQueue(requireContext())
+        val request: StringRequest =
+            object : StringRequest(
+                Method.GET, url,
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        val data: JSONArray = jsonObject.getJSONArray("data")
+                        Log.e(javaClass.simpleName, "volleyApiList: $data")
+                        for (i in 0 until data.length()) {
+                            val tutorialsObject: JSONObject = data.getJSONObject(i)
+
+                            val colorList = ColorsModel(
+                                tutorialsObject.getString("id"),
+                                tutorialsObject.getString("name"),
+                                tutorialsObject.getString("year"),
+                                tutorialsObject.getString("color"))
+                            list.add(colorList)
+
+                        }
+                        list.forEach { it1 ->
+                            viewModel.insertColorList(it1)
+                            Log.e(javaClass.simpleName, "insertColorList: $it1")
+                        }
+                        adapter = ColorListAdapter(list) {
+                            findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
+                        }
+                        binding.rvEmployees.adapter = adapter
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }, Response.ErrorListener { error ->
+                    Log.e(javaClass.simpleName, "error is " + error.message)
+                }) {
+            }
+        queue.add(request)
+    }
+
+    fun getListUsingOlyMvvm(lifecycleOwner: LifecycleOwner){
+        viewModel.observeColorLiveData().observe(lifecycleOwner) {
+            adapter = ColorListAdapter(it) {
+                findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
+            }
+            binding.rvEmployees.adapter = adapter
+        }
+    }
 
 }
 
