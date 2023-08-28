@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    tools:context = ".MainActivity">
     <item android:id="@+id/action_leave"
         android:title="leave"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+        android:background="#f000"
+        android:visible="true"/>
 </menu>

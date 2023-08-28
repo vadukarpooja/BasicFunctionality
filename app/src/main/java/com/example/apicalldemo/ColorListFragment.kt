@@ -167,7 +167,7 @@ class ColorListFragment : Fragment() {
         queue.add(request)
     }
 
-    fun getListUsingOlyMvvm(lifecycleOwner: LifecycleOwner){
+    private fun getListUsingOlyMvvm(lifecycleOwner: LifecycleOwner){
         viewModel.observeColorLiveData().observe(lifecycleOwner) {
             adapter = ColorListAdapter(it) {
                 findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())

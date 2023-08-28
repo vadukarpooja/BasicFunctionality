@@ -56,9 +56,11 @@ class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewMo
               if(response.isSuccessful){
                   if (response.body()!=null){
                       list.value = response.body()!!.data
+                      response.body()!!.data.forEach {
+                          insertColorList(it)
+                      }
                       Log.e(javaClass.simpleName, "onResponse: "+response.body()!!.data)
                   }
-
                }
             }
             override fun onFailure(call: Call<ResponseClass>, t: Throwable) {
