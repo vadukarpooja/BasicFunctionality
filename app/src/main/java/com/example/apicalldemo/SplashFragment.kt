@@ -29,7 +29,7 @@ class SplashFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToChatFragment())
+        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToColorListFragment())
         },3000)
     }
 

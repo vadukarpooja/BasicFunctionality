@@ -26,12 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity() : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-    private val viewModel :MainViewModel by viewModels()
-    private lateinit var adapter: ColorListAdapter
-    lateinit var car:Car
-    lateinit var car2:Car2
-    lateinit var engin: Engin
+    private lateinit var car:Car
+    private lateinit var car2:Car2
+    private lateinit var engin: Engin
 
 
     @SuppressLint("NotifyDataSetChanged")

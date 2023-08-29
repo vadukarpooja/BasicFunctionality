@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -23,11 +30,12 @@
         android:theme="@style/Theme.ApiCallDemo"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-           >
+            android:exported="false" />
+        <activity
+            android:name=".BluetoothChat"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,8 +45,8 @@
         <activity
             android:name=".ChatConnectActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateVisible"
-            />
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/MAPS_API_KEY" />

@@ -31,7 +31,7 @@ class ColorListFragment : Fragment() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: ColorListAdapter
     lateinit var binding: FragmentColorListBinding
-    lateinit var networkHelper: NetworkHelper
+    private lateinit var networkHelper: NetworkHelper
     var url:String ="https://reqres.in/api/unknown"
 
 
@@ -71,7 +71,7 @@ class ColorListFragment : Fragment() {
             //volleyApiList()
             //onLineList()
         } else {
-            offLineList()
+           // offLineList()
             Log.e(javaClass.simpleName, "offline")
         }
 
