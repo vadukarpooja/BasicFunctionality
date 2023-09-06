@@ -28,7 +28,7 @@ class ChatConnectActivity : AppCompatActivity() {
         val app = application as BaseApplication
         mSocket = app.socket
 
-        binding.edtName.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+        binding.edtName.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
 
             if (id == R.id.login || id == EditorInfo.IME_NULL) {
                 attemptLogin()

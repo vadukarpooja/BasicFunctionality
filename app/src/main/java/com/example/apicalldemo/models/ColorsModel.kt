@@ -1,11 +1,11 @@
 package com.example.apicalldemo.models
 
-import android.graphics.Color
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import dagger.Provides
+import kotlinx.parcelize.Parcelize
 
 
 @Entity(tableName = "colors_model")
@@ -19,15 +19,40 @@ data class ColorsModel(
     val name:String= "",
     @SerializedName("year")
     @Expose
-    val year:String,
+    val year:String = "",
     @SerializedName("color")
     @Expose
-    val color:String)
+    val color:String = "",)
 
 
 
-data class ColorsModel1(
-    val id:String= "",
-    val name:String= "",
-    val year:String,
-    val color:String)
+@Parcelize
+data class MovieList(
+    @SerializedName("Title")
+    var title:String = "",
+    @SerializedName("Poster")
+    var poster:String = "",
+    @SerializedName("Writer")
+    var writer:String = " ",
+    @SerializedName("Actors")
+    var actors:String = "",
+    @SerializedName("Country")
+    var country:String = "",
+    @SerializedName("Type")
+    var type:String = "",
+    @SerializedName("Director")
+    var director:String = "",
+    @SerializedName("Released")
+    var released:String = ""):Parcelable {
+}
+
+
+
+data class Images(
+    var img:String = ""
+)/*{
+    override fun toString(): String {
+        return "Images(data='$data')"
+    }
+}*/
+

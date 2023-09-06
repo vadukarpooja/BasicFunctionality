@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.apicalldemo.models.ColorsModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-@Database(entities = [ColorsModel::class], version = 7)
+@Database(entities = [ColorsModel::class], version = 8, exportSchema = false)
 abstract class ColorDataBase : RoomDatabase() {
     abstract fun colorDao(): ColorDao
 
@@ -44,38 +44,7 @@ abstract class ColorDataBase : RoomDatabase() {
         private fun populateDatabase(db: ColorDataBase) {
             val colorDao = db.colorDao()
             subscribeOnBackground {
-                colorDao.insert(
-                    ColorsModel(
-                        id = "0",
-                        name = "color1",
-                        year = "2000",
-                        color = "#98B2D1"
-                    )
-                )
-                colorDao.insert(
-                    ColorsModel(
-                        id = "0",
-                        name = "color2",
-                        year = "2001",
-                        color = "#C74375"
-                    )
-                )
-                colorDao.insert(
-                    ColorsModel(
-                        id = "0",
-                        name = "color3",
-                        year = "2002",
-                        color = "#C74375"
-                    )
-                )
-                colorDao.insert(
-                    (ColorsModel(
-                        id = "0",
-                        name = "color4",
-                        year = "2003",
-                        color = "#C74375"
-                    ))
-                )
+
             }
         }
     }

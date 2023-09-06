@@ -9,7 +9,6 @@
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/onOff"
         android:textSize="22sp"
-        android:checked="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -31,7 +30,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
-import com.example.apicalldemo.models.ColorsModel
+import com.example.apicalldemo.models.ResponseItem
 
 
-class ColorListAdapter(private val colorList: List<ColorsModel>,var onClick:(List<ColorsModel>)->Unit ) :
+class ColorListAdapter(private val colorList: List<ResponseItem>, var onClick:(ResponseItem)->Unit ) :
     RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
          val  name: TextView = view.findViewById(R.id.colorName)
-         val year:TextView = view.findViewById(R.id.year)
+         //val year:TextView = view.findViewById(R.id.year)
 
 
-        fun onBind(model: ColorsModel) {
-            name.text = model.name
-            year.text = model.year
+        fun onBind(model: ResponseItem) {
+            name.text = model.title
+            //year.text = model.year
 
 
         }
@@ -33,10 +33,10 @@ class ColorListAdapter(private val colorList: List<ColorsModel>,var onClick:(Lis
 
     override fun onBindViewHolder(holder: ColorListAdapter.ViewHolder, position: Int) {
         holder.onBind(colorList[position])
-        Log.e("test", "onBindViewHolder: "+colorList[position])
-        holder.itemView.setBackgroundColor(Color.parseColor(colorList[position].color))
+       // Log.e("test", "onBindViewHolder: "+colorList[position])
+//        holder.itemView.setBackgroundColor(Color.parseColor(colorList[position].color))
         holder.itemView.setOnClickListener {
-            onClick.invoke(colorList)
+            onClick.invoke(colorList[position])
         }
     }
 

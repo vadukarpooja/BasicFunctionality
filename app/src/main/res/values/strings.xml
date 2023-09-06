@@ -58,4 +58,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="bluetooth_connection">Bluetooth Connection</string>
+    <string name="movie_detail">Movie Detail</string>
 </resources>

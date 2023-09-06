@@ -14,4 +14,8 @@ interface ApiService {
     @GET("unknown")
     fun getMovieList():Call<ResponseClass>
 
+   /* @GET("db")*/
+    @GET("movies")
+    suspend fun getMoviesList():Response<ArrayList<ColorsModel>>
+
 }

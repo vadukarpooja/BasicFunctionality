@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
@@ -19,6 +20,7 @@ import com.example.apicalldemo.adapter.ColorListAdapter
 import com.example.apicalldemo.databinding.FragmentColorListBinding
 import com.example.apicalldemo.models.ColorsModel
 import com.example.apicalldemo.viewModel.MainViewModel
+import com.example.apicalldemo.viewModel.MovieListViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONArray
@@ -56,22 +58,20 @@ class ColorListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
         adapter = ColorListAdapter(arrayListOf()) {
-
         }
-        binding.rvEmployees.adapter = adapter
         /*res.data?.let { it1 ->
             adapter = ColorListAdapter(it1)
         }*/
 
         if (networkHelper.isNetworkConnected()) {
             Log.e(javaClass.simpleName, "onLine: ")
-            viewModel.getPopularColor()
-            getListUsingOlyMvvm(this)
-            //viewModel.getColorList()
+           // viewModel.getPopularColor()
+            //getListUsingOlyMvvm(this)
+            viewModel.getColorList()
             //volleyApiList()
-            //onLineList()
+            onLineList()
         } else {
-           // offLineList()
+           offLineList()
             Log.e(javaClass.simpleName, "offline")
         }
 
@@ -94,10 +94,10 @@ class ColorListFragment : Fragment() {
                         colorsModel.data.let { res ->
                             Log.e(javaClass.simpleName, "onViewCreated: you are online")
                             Log.e(javaClass.simpleName, "res: $res")
-                            adapter = ColorListAdapter(res) {
+                            /*adapter = ColorListAdapter(res) {
                                 findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
                             }
-                            binding.rvEmployees.adapter = adapter
+                            binding.rvEmployees.adapter = adapter*/
                         }
                     }
                 }
@@ -116,12 +116,15 @@ class ColorListFragment : Fragment() {
         })
     }
 
+
+
+
     private fun  offLineList() {
         viewModel.getAllNotes().observe(viewLifecycleOwner) {
-            adapter = ColorListAdapter(it as ArrayList<ColorsModel>) {
+            /*adapter = ColorListAdapter(it as ArrayList<ColorsModel>) {
                 findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
             }
-            binding.rvEmployees.adapter = adapter
+            binding.rvEmployees.adapter = adapter*/
         }
 
     }
@@ -152,10 +155,10 @@ class ColorListFragment : Fragment() {
                             viewModel.insertColorList(it1)
                             Log.e(javaClass.simpleName, "insertColorList: $it1")
                         }
-                        adapter = ColorListAdapter(list) {
+                     /*   adapter = ColorListAdapter(list) {
                             findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
                         }
-                        binding.rvEmployees.adapter = adapter
+                        binding.rvEmployees.adapter = adapter*/
 
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -169,10 +172,10 @@ class ColorListFragment : Fragment() {
 
     private fun getListUsingOlyMvvm(lifecycleOwner: LifecycleOwner){
         viewModel.observeColorLiveData().observe(lifecycleOwner) {
-            adapter = ColorListAdapter(it) {
+           /* adapter = ColorListAdapter(it) {
                 findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
             }
-            binding.rvEmployees.adapter = adapter
+            binding.rvEmployees.adapter = adapter*/
         }
     }
 

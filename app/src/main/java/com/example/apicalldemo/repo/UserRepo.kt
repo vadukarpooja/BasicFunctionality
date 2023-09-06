@@ -20,6 +20,8 @@ class UserRepo @Inject constructor(private val apiHelper: ApiHelper, application
 
     suspend fun getColorList() = apiHelper.getColorList()
 
+    suspend fun getMoviesList() = apiHelper.getMoviesList()
+
     private  var colorDao: ColorDao
     private  var allColorList: LiveData<List<ColorsModel>>
     private val database = ColorDataBase.getInstance(application.applicationContext)

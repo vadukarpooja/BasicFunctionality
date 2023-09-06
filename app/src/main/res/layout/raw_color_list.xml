@@ -8,6 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <androidx.appcompat.widget.AppCompatTextView
+      android:background="@android:color/darker_gray"
       android:id="@+id/colorName"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -15,9 +16,9 @@
       app:layout_constrainedWidth="true"
       android:textColor="@color/black"
       android:textSize="25sp"
-      android:textStyle="italic"
-      android:gravity="center"
-      android:textAlignment="center"
+      android:textStyle="normal"
+      android:gravity="start"
+      android:textAlignment="textStart"
       android:layout_marginTop="10dp"
       android:layout_marginBottom="10dp"
       android:layout_marginStart="15dp"
@@ -30,8 +31,9 @@
       android:id="@+id/year"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/red"
-    app:layout_constrainedWidth="true"
+      android:text=""
+      android:visibility="gone"
+      app:layout_constrainedWidth="true"
       android:textColor="@color/black"
       android:textSize="25sp"
       android:textStyle="italic"
