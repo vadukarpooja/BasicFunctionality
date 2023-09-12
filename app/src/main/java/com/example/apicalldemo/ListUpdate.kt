@@ -22,7 +22,11 @@ class ListUpdate : AppCompatActivity() {
         binding = ActivityListUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = ColorListAdapter(arrayListOf()) {
+        adapter = ColorListAdapter(arrayListOf(),{
+
+        },{
+
+        }) {
         }
 
         binding.addBtn.setOnClickListener {

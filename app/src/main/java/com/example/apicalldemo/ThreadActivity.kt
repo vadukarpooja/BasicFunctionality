@@ -47,7 +47,11 @@ class ThreadActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             val intent = Intent(this, ReadContactList::class.java)
             startActivity(intent)
         }
-        adapter = ColorListAdapter(arrayListOf()) {
+        adapter = ColorListAdapter(arrayListOf(),{
+
+        },{
+
+        }) {
         }
 
         // SomeTask(binding.edt).execute(100)

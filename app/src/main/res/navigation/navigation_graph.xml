@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_listFragment_to_movieListFragment"
             app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_movieItemEdit"
+            app:destination="@id/movieItemEdit" />
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -78,6 +81,18 @@
         <argument
             android:name="data"
             app:argType="com.example.apicalldemo.models.ResponseItem"/>
+    </fragment>
+    <fragment
+        android:id="@+id/movieItemEdit"
+        android:name="com.example.apicalldemo.MovieItemEdit"
+        android:label="fragment_movie_detail_update"
+        tools:layout="@layout/fragment_movie_detail_update" >
+        <argument
+            android:name="data"
+            app:argType="com.example.apicalldemo.models.ResponseItem"/>
+        <action
+            android:id="@+id/action_movieItemEdit_to_listFragment"
+            app:destination="@id/listFragment" />
     </fragment>
 
 </navigation>

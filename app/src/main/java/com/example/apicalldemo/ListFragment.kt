@@ -1,24 +1,26 @@
 package com.example.apicalldemo
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide.init
 import com.example.apicalldemo.adapter.ColorListAdapter
 import com.example.apicalldemo.databinding.FragmentListBinding
 import com.example.apicalldemo.models.ResponseItem
 import com.example.apicalldemo.viewModel.MovieListViewModel
 import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonParser
-import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedReader
@@ -47,11 +49,16 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
-        adapter = ColorListAdapter(arrayListOf()) {
+        adapter = ColorListAdapter(arrayListOf(), {
+
+        }, {
+
+        }) {
 
         }
-        /*offLineList()*/
-        roomDataBase()
+        offLineList()
+       /* roomDataBase()*/
+        SomeTask(binding.count,requireContext()).execute()
         /*if (networkHelper.isNetworkConnected()) {
             Log.e(javaClass.simpleName, "onLine: ")
             movieVM.getMovieList()
@@ -118,29 +125,102 @@ class ListFragment : Fragment() {
             Log.e(javaClass.simpleName, "offLineList it: $it")
         }
         Log.e(javaClass.simpleName, "offLineList: $data")
-        adapter = ColorListAdapter(data) {
+        adapter = ColorListAdapter(data, onEditClick = {
+        }, onDeleteClick = {
+        }, onItem = {
             findNavController().navigate(
                 ListFragmentDirections.actionListFragmentToMovieListFragment(
                     data = it
                 )
             )
-        }
+        })
         binding.rvEmployees.adapter = adapter
     }
 
 
     private fun roomDataBase() {
         movieVM.getAllMovieItem().observe(viewLifecycleOwner) { it1 ->
-            adapter = ColorListAdapter(it1 as ArrayList<ResponseItem>) {
+            Log.e(javaClass.simpleName, "roomDataBase: $it1")
+            adapter = ColorListAdapter(it1, onEditClick = {itEdit->
                 findNavController().navigate(
-                    ListFragmentDirections.actionListFragmentToMovieListFragment(
-                        data = it
-                    )
+                    ListFragmentDirections.actionListFragmentToMovieItemEdit(itEdit)
                 )
-            }
+            }, onDeleteClick = {itDelete->
+                val builder = AlertDialog.Builder(requireContext())
+
+                builder.setTitle("Are You Sure want to deleteItem")
+                builder.setPositiveButton("Yes"){ _, _ ->
+                    val responseItem1 = ResponseItem(id = itDelete.id,released = itDelete.released, director =  itDelete.director, title = itDelete.title, actors = itDelete.director, country = itDelete.country, poster = itDelete.poster)
+                    movieVM.deleteMovieItem(responseItem1)
+                    Toast.makeText(requireContext(),"Movie Item is deleted",Toast.LENGTH_SHORT).show()
+                }
+                builder.setNegativeButton("No"){dialog,_->
+                    dialog.dismiss()
+                }
+                val alertDialog: AlertDialog = builder.create()
+                alertDialog.show()
+            }, onItem = {item->
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToMovieListFragment(item))
+            })
             binding.rvEmployees.adapter = adapter
+
+        }
+
+        binding.btnDelete.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+
+            builder.setTitle("Are You Sure want to deleteItem")
+            builder.setPositiveButton("Yes"){ _, _ ->
+                movieVM.deleteAllMovieItem()
+                Toast.makeText(requireContext(),"All Item is deleted",Toast.LENGTH_SHORT).show()
+            }
+            builder.setNegativeButton("No"){dialog,_->
+                dialog.dismiss()
+            }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
         }
     }
+    @SuppressLint("StaticFieldLeak")
+    internal class SomeTask(val textView: TextView,val context: Context) : AsyncTask<String, Void, String>() {
+        val handler = Handler()
+        val handler2 = Handler()
+        override fun doInBackground(vararg strings: String): String {
+            return null.toString()
+        }
+        override fun onPostExecute(s: String) {
+            var countUpdate = 1
+            textView.text = countUpdate.toString()
+            /*val myRunnable = Runnable {
+                kotlin.run {
+
+                }
+            }
+
+            handler.postDelayed(myRunnable, 5000)*/
+            handler.postDelayed(object : Runnable {
+                override fun run() {
+                    handler.postDelayed(this, 5000)
+                    textView.text = countUpdate++.toString()
+                }
+            }, 3000)
+
+            handler2.postDelayed(object : Runnable {
+                override fun run() {
+                    handler2.postDelayed(this, 50000)
+                    Toast.makeText(context,textView.text.toString(),Toast.LENGTH_SHORT).show()
+                }
+            }, 50000)
+
+        }
+
+        override fun onCancelled() {
+            super.onCancelled()
+
+        }
+    }
+
 
 
 }

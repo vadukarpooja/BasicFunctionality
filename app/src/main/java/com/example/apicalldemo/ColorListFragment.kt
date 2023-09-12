@@ -57,7 +57,11 @@ class ColorListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
-        adapter = ColorListAdapter(arrayListOf()) {
+        adapter = ColorListAdapter(arrayListOf(),{
+
+        },{
+
+        }) {
         }
         /*res.data?.let { it1 ->
             adapter = ColorListAdapter(it1)

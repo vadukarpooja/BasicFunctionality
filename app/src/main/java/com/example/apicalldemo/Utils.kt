@@ -1,8 +1,6 @@
 package com.example.apicalldemo
 
 import android.content.Context
-import android.util.Log
-import com.google.gson.JsonArray
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +19,7 @@ fun subscribeOnBackground(function: () -> Unit) {
 
 fun readJSONFromAssets(context: Context, path: String): String {
     val identifier = "[ReadJSON]"
-    try {
+    return try {
         val file = context.assets.open("$path")
 
         val bufferedReader = BufferedReader(InputStreamReader(file))
@@ -31,10 +29,9 @@ fun readJSONFromAssets(context: Context, path: String): String {
                 stringBuilder.append(it)
             }
         }
-        val jsonString = stringBuilder.toString()
-        return jsonString
+        stringBuilder.toString()
     } catch (e: Exception) {
         e.printStackTrace()
-        return ""
+        ""
     }
 }

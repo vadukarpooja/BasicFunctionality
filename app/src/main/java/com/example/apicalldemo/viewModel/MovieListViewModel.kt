@@ -58,13 +58,23 @@ class MovieListViewModel @Inject constructor(
     }
 */
 
-    fun insertMovieList(responseItem:ResponseItem){
+    fun insertMovieList(responseItem:ResponseItem) {
         movieListRepo.insert(responseItem)
     }
 
+    fun updateMovieList(responseItem: ResponseItem){
+        movieListRepo.update(responseItem)
+    }
     fun getAllMovieItem() :LiveData<List<ResponseItem>>{
         return movieItem
     }
 
+    fun deleteMovieItem(responseItem: ResponseItem){
+        movieListRepo.delete(responseItem)
+    }
+
+    fun deleteAllMovieItem()= viewModelScope.launch{
+        movieListRepo.deleteAll()
+    }
 
 }

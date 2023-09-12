@@ -37,9 +37,9 @@ class MovieListRepo @Inject constructor(private val apiHelper: ApiHelper, applic
     }
 
 
-    var movieListDao: MovieListDao
-    var movieItem1: LiveData<List<ResponseItem>>
-    val database1 = MovieListDatabase.getInstance(application.applicationContext)
+    private var movieListDao: MovieListDao
+    private var movieItem1: LiveData<List<ResponseItem>>
+    private val database1 = MovieListDatabase.getInstance(application.applicationContext)
 
 
     init {
@@ -50,6 +50,24 @@ class MovieListRepo @Inject constructor(private val apiHelper: ApiHelper, applic
     fun insert(item: ResponseItem) {
         subscribeOnBackground {
             movieListDao.insert(item)
+        }
+    }
+
+    fun update(item:ResponseItem){
+        subscribeOnBackground {
+            movieListDao.update(item)
+        }
+    }
+
+    fun delete(item:ResponseItem){
+        subscribeOnBackground {
+            movieListDao.delete(item)
+        }
+    }
+
+    fun deleteAll(){
+        subscribeOnBackground {
+            movieListDao.deleteMovieItem()
         }
     }
 

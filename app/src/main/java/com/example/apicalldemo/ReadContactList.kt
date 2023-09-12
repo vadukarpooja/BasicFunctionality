@@ -39,7 +39,11 @@ class ReadContactList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReadContectListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        adapter = ColorListAdapter(arrayListOf()) {
+        adapter = ColorListAdapter(arrayListOf(),{
+
+        },{
+
+        }) {
         }
         loadContacts()
 
