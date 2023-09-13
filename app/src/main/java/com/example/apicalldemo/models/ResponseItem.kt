@@ -2,18 +2,11 @@ package com.example.apicalldemo.models
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
 
 @Parcelize
-/*@Serializable
-@JsonClass(generateAdapter = true)*/
 @Entity(tableName = "movieList_model")
 data class ResponseItem(
 	@PrimaryKey(autoGenerate = true)
@@ -35,5 +28,5 @@ data class ResponseItem(
 	var poster: String = "",
 	@SerializedName("Country")
 	var country: String = "",
-):Parcelable
+): Parcelable
 

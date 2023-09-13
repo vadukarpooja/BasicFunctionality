@@ -2,7 +2,10 @@ package com.example.apicalldemo
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.apicalldemo.adapter.ColorListAdapter
@@ -36,7 +40,6 @@ class ListFragment : Fragment() {
     private val movieVM: MovieListViewModel by viewModels()
     private lateinit var networkHelper: NetworkHelper
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +52,16 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
+        requireActivity().startService(Intent(context, ForegroundService::class.java))
+       /* val handler2 = Handler()
+        handler2.postDelayed(object : Runnable {
+            override fun run() {
+                handler2.postDelayed(this, 5000)
+                binding.count.text = SharedPrefs.getValue(requireContext(),"count","").toString()
+                Log.e(javaClass.simpleName, "onViewCreated: "+SharedPrefs.getValue(requireContext(),"count",""))
+            }
+        }, 4000)*/
+       /* SomeTask(binding.count, requireContext(), handler, handler2).execute() as SomeTask*/
         adapter = ColorListAdapter(arrayListOf(), {
 
         }, {
@@ -57,8 +70,8 @@ class ListFragment : Fragment() {
 
         }
         offLineList()
-       /* roomDataBase()*/
-        SomeTask(binding.count,requireContext()).execute()
+        /* roomDataBase()*/
+
         /*if (networkHelper.isNetworkConnected()) {
             Log.e(javaClass.simpleName, "onLine: ")
             movieVM.getMovieList()
@@ -141,26 +154,39 @@ class ListFragment : Fragment() {
     private fun roomDataBase() {
         movieVM.getAllMovieItem().observe(viewLifecycleOwner) { it1 ->
             Log.e(javaClass.simpleName, "roomDataBase: $it1")
-            adapter = ColorListAdapter(it1, onEditClick = {itEdit->
+            adapter = ColorListAdapter(it1, onEditClick = { itEdit ->
                 findNavController().navigate(
                     ListFragmentDirections.actionListFragmentToMovieItemEdit(itEdit)
                 )
-            }, onDeleteClick = {itDelete->
+            }, onDeleteClick = { itDelete ->
                 val builder = AlertDialog.Builder(requireContext())
 
                 builder.setTitle("Are You Sure want to deleteItem")
-                builder.setPositiveButton("Yes"){ _, _ ->
-                    val responseItem1 = ResponseItem(id = itDelete.id,released = itDelete.released, director =  itDelete.director, title = itDelete.title, actors = itDelete.director, country = itDelete.country, poster = itDelete.poster)
+                builder.setPositiveButton("Yes") { _, _ ->
+                    val responseItem1 = ResponseItem(
+                        id = itDelete.id,
+                        released = itDelete.released,
+                        director = itDelete.director,
+                        title = itDelete.title,
+                        actors = itDelete.director,
+                        country = itDelete.country,
+                        poster = itDelete.poster
+                    )
                     movieVM.deleteMovieItem(responseItem1)
-                    Toast.makeText(requireContext(),"Movie Item is deleted",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Movie Item is deleted", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                builder.setNegativeButton("No"){dialog,_->
+                builder.setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
                 }
                 val alertDialog: AlertDialog = builder.create()
                 alertDialog.show()
-            }, onItem = {item->
-                findNavController().navigate(ListFragmentDirections.actionListFragmentToMovieListFragment(item))
+            }, onItem = { item ->
+                findNavController().navigate(
+                    ListFragmentDirections.actionListFragmentToMovieListFragment(
+                        item
+                    )
+                )
             })
             binding.rvEmployees.adapter = adapter
 
@@ -170,11 +196,11 @@ class ListFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
 
             builder.setTitle("Are You Sure want to deleteItem")
-            builder.setPositiveButton("Yes"){ _, _ ->
+            builder.setPositiveButton("Yes") { _, _ ->
                 movieVM.deleteAllMovieItem()
-                Toast.makeText(requireContext(),"All Item is deleted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "All Item is deleted", Toast.LENGTH_SHORT).show()
             }
-            builder.setNegativeButton("No"){dialog,_->
+            builder.setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
             }
             val alertDialog: AlertDialog = builder.create()
@@ -182,45 +208,54 @@ class ListFragment : Fragment() {
 
         }
     }
+
     @SuppressLint("StaticFieldLeak")
-    internal class SomeTask(val textView: TextView,val context: Context) : AsyncTask<String, Void, String>() {
-        val handler = Handler()
-        val handler2 = Handler()
+    class SomeTask(
+        val textView: TextView,
+        val context: Context,
+        val handler: Handler,
+        val handler2: Handler,
+    ) : AsyncTask<String, Void, String>() {
+
         override fun doInBackground(vararg strings: String): String {
             return null.toString()
         }
+
         override fun onPostExecute(s: String) {
             var countUpdate = 1
             textView.text = countUpdate.toString()
-            /*val myRunnable = Runnable {
-                kotlin.run {
-
-                }
-            }
-
-            handler.postDelayed(myRunnable, 5000)*/
             handler.postDelayed(object : Runnable {
                 override fun run() {
                     handler.postDelayed(this, 5000)
                     textView.text = countUpdate++.toString()
                 }
-            }, 3000)
-
+            }, 4000)
             handler2.postDelayed(object : Runnable {
                 override fun run() {
                     handler2.postDelayed(this, 50000)
-                    Toast.makeText(context,textView.text.toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, textView.text.toString(), Toast.LENGTH_SHORT).show()
                 }
             }, 50000)
-
-        }
-
-        override fun onCancelled() {
-            super.onCancelled()
-
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        Log.e(javaClass.simpleName, "onStop: ")
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(javaClass.simpleName, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(javaClass.simpleName, "onPause: ")
+    }
 
 }

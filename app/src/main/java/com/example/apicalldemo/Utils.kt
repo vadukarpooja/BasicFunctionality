@@ -1,6 +1,7 @@
 package com.example.apicalldemo
 
 import android.content.Context
+import android.view.View
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -34,4 +35,7 @@ fun readJSONFromAssets(context: Context, path: String): String {
         e.printStackTrace()
         ""
     }
+}
+fun View.onClick(action: () -> Unit) {
+    setOnClickListener { action() }
 }

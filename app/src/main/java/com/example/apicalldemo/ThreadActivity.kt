@@ -1,36 +1,30 @@
 package com.example.apicalldemo
 
-import dagger.hilt.android.AndroidEntryPoint
-
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.Contacts.Intents.UI
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.apicalldemo.adapter.ColorListAdapter
 import com.example.apicalldemo.databinding.ActivityThreadBinding
 import com.example.apicalldemo.models.ColorsModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
-import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 class ThreadActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -43,10 +37,10 @@ class ThreadActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         binding = ActivityThreadBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.title.setOnClickListener {
+      /*  binding.title.setOnClickListener {
             val intent = Intent(this, ReadContactList::class.java)
             startActivity(intent)
-        }
+        }*/
         adapter = ColorListAdapter(arrayListOf(),{
 
         },{
@@ -167,5 +161,31 @@ class SomeTask(private var textView: EditText) : AsyncTask<Int, Void, String>() 
     override fun onPostExecute(result: String?) {
         textView.setText(result)
         Log.e(javaClass.simpleName, "onPostExecute: $result")
+    }
+}
+
+
+@SuppressLint("StaticFieldLeak")
+internal class SomeTask1(val textView: TextView,val context: Context) : AsyncTask<String, Void, String>() {
+    val handler = Handler()
+    val handler2 = Handler()
+    override fun doInBackground(vararg strings: String): String {
+        return null.toString()
+    }
+    override fun onPostExecute(s: String) {
+        var countUpdate = 1
+        textView.text = countUpdate.toString()
+        handler.postDelayed(object : java.lang.Runnable {
+            override fun run() {
+                handler.postDelayed(this, 5000)
+                textView.text = countUpdate++.toString()
+            }
+        }, 4000)
+        handler2.postDelayed(object : java.lang.Runnable {
+            override fun run() {
+                handler2.postDelayed(this, 50000)
+                Toast.makeText(context,textView.text.toString(),Toast.LENGTH_SHORT).show()
+            }
+        }, 50000)
     }
 }

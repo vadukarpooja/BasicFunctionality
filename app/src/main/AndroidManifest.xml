@@ -58,10 +58,18 @@
             android:name=".ChatConnectActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-
+        <service android:name=".ForegroundService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/MAPS_API_KEY" />
+        <receiver android:name=".Receiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
