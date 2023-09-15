@@ -30,7 +30,6 @@ class MainActivity() : AppCompatActivity() {
     private lateinit var car2:Car2
     private lateinit var engin: Engin
 
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

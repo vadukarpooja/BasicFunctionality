@@ -1,14 +1,17 @@
 package com.example.apicalldemo
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +20,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.apicalldemo.adapter.ColorListAdapter
@@ -39,6 +41,14 @@ class ListFragment : Fragment() {
     private val args: ListFragmentArgs by navArgs()
     private val movieVM: MovieListViewModel by viewModels()
     private lateinit var networkHelper: NetworkHelper
+    val handler = Handler()
+    private var runnable: Runnable? = null
+    var iskill: Boolean = false
+
+
+    var myService: ForegroundService? = null
+    var serviceIntent: Intent? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,19 +59,27 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
         requireActivity().startService(Intent(context, ForegroundService::class.java))
-       /* val handler2 = Handler()
-        handler2.postDelayed(object : Runnable {
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
             override fun run() {
-                handler2.postDelayed(this, 5000)
-                binding.count.text = SharedPrefs.getValue(requireContext(),"count","").toString()
-                Log.e(javaClass.simpleName, "onViewCreated: "+SharedPrefs.getValue(requireContext(),"count",""))
+                handler.postDelayed(this, 10)
+                binding.count.text = SharedPrefs.getValue(requireContext(),"result","") .toString()
             }
-        }, 4000)*/
-       /* SomeTask(binding.count, requireContext(), handler, handler2).execute() as SomeTask*/
+        }, 10)
+        binding.stop.setOnClickListener {
+            SharedPrefs.remove(requireContext(),"count")
+            SharedPrefs.remove(requireContext(),"result")
+        }
+        Log.e(
+            javaClass.simpleName,
+            "isServiceRunning: " + requireContext().isServiceRunning(ForegroundService::class.java)
+        )
+        /* SomeTask(binding.count, requireContext(), handler, handler2).execute() as SomeTask*/
         adapter = ColorListAdapter(arrayListOf(), {
 
         }, {
@@ -128,6 +146,18 @@ class ListFragment : Fragment() {
           })
       }
   */
+    @Suppress("DEPRECATION")
+    private fun <T> Context.isServiceRunning(serviceClass: Class<T>): Boolean {
+        var isStart: Boolean = false
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                isStart = true
+            }
+        }
+        return isStart
+    }
+
     private fun offLineList() {
         val json: InputStream = requireContext().assets.open("film.json")
         val br = BufferedReader(InputStreamReader(json))
@@ -239,6 +269,16 @@ class ListFragment : Fragment() {
         }
     }
 
+    var serviceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            //myService = (service as ForegroundService.MyBinder).getService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            myService = null
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         Log.e(javaClass.simpleName, "onStop: ")
@@ -249,11 +289,15 @@ class ListFragment : Fragment() {
     }
 
     override fun onResume() {
+        /* requireContext().startService(serviceIntent)
+         requireContext().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)*/
         super.onResume()
         Log.e(javaClass.simpleName, "onResume: ")
     }
 
     override fun onPause() {
+        /*  requireContext().stopService(serviceIntent)
+          requireContext().unbindService(serviceConnection)*/
         super.onPause()
         Log.e(javaClass.simpleName, "onPause: ")
     }
