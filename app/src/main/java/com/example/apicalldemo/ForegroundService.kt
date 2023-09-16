@@ -1,40 +1,45 @@
 package com.example.apicalldemo
 
+import android.app.Activity
 import android.app.Service
+import android.content.Context
 import android.content.Intent
-import android.os.Binder
+import android.location.Location
 import android.os.Handler
 import android.os.IBinder
+import android.os.Message
+import android.os.Messenger
+import android.os.RemoteException
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.observe
-import java.security.acl.Owner
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 
 class ForegroundService() : Service() {
-    lateinit var mSmsReceiver: Receiver
-    private val binder: IBinder = MyBinder()
-    val handler = Handler()
-    val isKill:Boolean = false
-    private var runnable: Runnable? = null
     var count= 1
-    lateinit var application: MainActivity
-    val liveData = MutableLiveData<Int?>()
+    var countInterFace: CountInterFace? =null
+    private var mActivityMessenger: Messenger? = null
+    val LOCATION_MESSAGE = 100
+    lateinit var listFragment: ListFragment
+    lateinit var localBroadcastManager:LocalBroadcastManager
+
 
     override fun onCreate() {
+        listFragment = ListFragment()
+        localBroadcastManager = LocalBroadcastManager.getInstance(this)
         if (SharedPrefs.getValue(this@ForegroundService,"count",0) == 0){
-            task()
+            task(context = this@ForegroundService)
         }
         else{
             val result: Int = SharedPrefs.getValue(this@ForegroundService,"count",0) as Int
-            task(result)
+            task(result, context = this@ForegroundService)
         }
         Log.e(javaClass.simpleName, "onCreate: count"+ SharedPrefs.getValue(this@ForegroundService,"count",0) )
         super.onCreate()
     }
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         Log.e(javaClass.simpleName, "onStartCommand: ")
+        mActivityMessenger =
+            intent.getParcelableExtra(ListFragment.MESSENGER_INTENT_KEY)
         return START_STICKY
     }
 
@@ -44,9 +49,9 @@ class ForegroundService() : Service() {
     }
 
 
-    override fun onBind(intent: Intent): IBinder {
+    override fun onBind(intent: Intent): IBinder? {
         Log.e(javaClass.simpleName, "onBind: ")
-        return binder
+        return null
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -58,15 +63,7 @@ class ForegroundService() : Service() {
         Log.e(javaClass.simpleName, "onUnbind: ")
         return super.onUnbind(intent)
     }
-
-    // create an inner Binder class
-    class MyBinder : Binder() {
-        fun getService(): ForegroundService {
-            return ForegroundService()
-        }
-    }
-
-     private fun task(countUpdate: Int? = null){
+    private fun task(countUpdate: Int? = null,context: Context){
          var result: Int? = countUpdate
          val handler = Handler()
         handler.postDelayed(object : Runnable {
@@ -77,34 +74,27 @@ class ForegroundService() : Service() {
                 } else{
                     result = result!! + 1
                 }
+                listFragment.onUpdateCount(result!!,localBroadcastManager,context)
+               // countInterFace?.onUpdateCount(result!!)
                 SharedPrefs.setValue(this@ForegroundService,"count",result)
-                SharedPrefs.setValue(this@ForegroundService,"result",result.toString())
                 Log.e(javaClass.simpleName, "run: ${result}")
             }
         }, 4000)
     }
-   /* @SuppressLint("StaticFieldLeak")
-    class SomeTaskService(
-        val context: Context,
-    ) : AsyncTask<Int, Void, Int>() {
-        var count = 1
-        override fun doInBackground(vararg params: Int?): Int? {
-            return params[0]
+    private fun sendMessage(messageID: Int, count: Int) {
+        /**  If this service is launched by the JobScheduler, there's no callback Messenger. It
+        only exists when the MainActivity calls startService() with the callback in the Intent.*/
+        if (mActivityMessenger == null) {
+
+            return
         }
-
-        override fun onPostExecute(result: Int) {
-            val handler = Handler()
-            handler.postDelayed(object : Runnable {
-                override fun run() {
-                    handler.postDelayed(this, 5000)
-                    val countUpdate = count++.toString()
-                    SharedPrefs.setValue(context,"count",countUpdate)
-                    Log.e(javaClass.simpleName, "run: $countUpdate")
-                }
-            }, 4000)
-
+        val m = Message.obtain()
+        m.what = messageID
+        m.obj = count
+        try {
+            mActivityMessenger!!.send(m)
+        } catch (e: RemoteException) {
+            Log.e(javaClass.simpleName, "Error passing service object back to activity.")
         }
-
-    }*/
-
+    }
 }

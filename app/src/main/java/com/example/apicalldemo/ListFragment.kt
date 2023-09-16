@@ -1,5 +1,6 @@
 package com.example.apicalldemo
 
+
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.AlertDialog
@@ -7,11 +8,13 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +23,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.apicalldemo.adapter.ColorListAdapter
@@ -35,20 +39,13 @@ import java.io.InputStreamReader
 
 
 @AndroidEntryPoint
-class ListFragment : Fragment() {
+class ListFragment : Fragment() ,CountInterFace{
     lateinit var binding: FragmentListBinding
     lateinit var adapter: ColorListAdapter
     private val args: ListFragmentArgs by navArgs()
     private val movieVM: MovieListViewModel by viewModels()
     private lateinit var networkHelper: NetworkHelper
-    val handler = Handler()
-    private var runnable: Runnable? = null
-    var iskill: Boolean = false
-
-
-    var myService: ForegroundService? = null
-    var serviceIntent: Intent? = null
-
+    lateinit var foregroundService: ForegroundService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,25 +57,26 @@ class ListFragment : Fragment() {
     }
 
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkHelper = NetworkHelper(requireContext())
-        requireActivity().startService(Intent(context, ForegroundService::class.java))
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                handler.postDelayed(this, 10)
-                binding.count.text = SharedPrefs.getValue(requireContext(),"result","") .toString()
-            }
-        }, 10)
+        foregroundService = ForegroundService()
+        foregroundService.localBroadcastManager =  LocalBroadcastManager.getInstance(requireContext())
         binding.stop.setOnClickListener {
             SharedPrefs.remove(requireContext(),"count")
             SharedPrefs.remove(requireContext(),"result")
         }
-        Log.e(
-            javaClass.simpleName,
-            "isServiceRunning: " + requireContext().isServiceRunning(ForegroundService::class.java)
-        )
+        requireContext().startService(Intent(requireContext(),ForegroundService::class.java))
+        val listener = object : BroadcastReceiver(){
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val data = intent?.getStringExtra("count")
+                binding.count.text = data
+                Log.e(javaClass.simpleName, "onViewCreated onReceive: $data")
+            }
+        }
+        val intentFilter = IntentFilter(BROADCAST)
+        foregroundService.localBroadcastManager.registerReceiver(listener, intentFilter)
         /* SomeTask(binding.count, requireContext(), handler, handler2).execute() as SomeTask*/
         adapter = ColorListAdapter(arrayListOf(), {
 
@@ -108,6 +106,16 @@ class ListFragment : Fragment() {
            binding.rvEmployees.adapter = adapter*/
     }
 
+    override fun onUpdateCount(count: Int,localBroadcastManager:LocalBroadcastManager,context: Context){
+        val intent = Intent(BROADCAST)
+        intent.putExtra("count", count.toString())
+        localBroadcastManager.sendBroadcast(intent)
+        Log.e(javaClass.simpleName, "onUpdateCount1: $count")
+    }
+    override fun onAttach(context: Context) {
+        Log.e(javaClass.simpleName, "onAttach: ")
+        super.onAttach(context)
+    }
     /*  private fun movieList() {
           movieVM.res.observe(requireActivity(), Observer {
               when (it.status) {
@@ -269,13 +277,15 @@ class ListFragment : Fragment() {
         }
     }
 
+
+
+
     var serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             //myService = (service as ForegroundService.MyBinder).getService()
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
-            myService = null
         }
     }
 
@@ -289,8 +299,6 @@ class ListFragment : Fragment() {
     }
 
     override fun onResume() {
-        /* requireContext().startService(serviceIntent)
-         requireContext().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)*/
         super.onResume()
         Log.e(javaClass.simpleName, "onResume: ")
     }
@@ -302,4 +310,25 @@ class ListFragment : Fragment() {
         Log.e(javaClass.simpleName, "onPause: ")
     }
 
+
+    companion object {
+        const val MESSENGER_INTENT_KEY = "msg-intent-key"
+    }
+
+    @SuppressLint("HandlerLeak")
+    inner class IncomingMessageHandler : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when (msg.what) {
+               /* ForegroundService().LOCATION_MESSAGE -> {
+                    Log.e(javaClass.simpleName, "handleMessage: ${msg.obj}")
+                    binding.count.text = msg.obj.toString()
+                }*/
+                }
+            }
+        }
+
+    interface CountResult {
+        fun resultCount(count: String){}
+    }
 }
