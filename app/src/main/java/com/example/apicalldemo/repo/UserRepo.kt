@@ -1,18 +1,16 @@
 package com.example.apicalldemo.repo
 
 
-import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.apicalldemo.BaseApplication
 import com.example.apicalldemo.ColorDao
 import com.example.apicalldemo.ColorDataBase
-import com.example.apicalldemo.Resource
 import com.example.apicalldemo.ResponseClass
 import com.example.apicalldemo.api.ApiHelper
 import com.example.apicalldemo.models.ColorsModel
+import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.subscribeOnBackground
+import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepo @Inject constructor(private val apiHelper: ApiHelper, application: BaseApplication) {
@@ -21,6 +19,12 @@ class UserRepo @Inject constructor(private val apiHelper: ApiHelper, application
     suspend fun getColorList() = apiHelper.getColorList()
 
     suspend fun getMoviesList() = apiHelper.getMoviesList()
+
+    /*suspend fun getIssuesList( perPage: Int,
+                               page: Int): Response<ArrayList<IssuesModel>> = apiHelper.getIssuesList(perPage, page)*/
+
+    suspend fun getIssuesList( perPage: Int,
+                               page: Int): Response<ResponseClass> = apiHelper.getIssuesList(perPage, page)
 
     private  var colorDao: ColorDao
     private  var allColorList: LiveData<List<ColorsModel>>

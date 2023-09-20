@@ -62,10 +62,10 @@ class MainViewModel @Inject constructor(private val userRepo: UserRepo,val baseA
             override fun onResponse(call: Call<ResponseClass>, response: Response<ResponseClass>) {
               if(response.isSuccessful){
                   if (response.body()!=null){
-                      list.value = response.body()!!.data
+                     /* list.value = response.body()!!.data
                       response.body()!!.data.forEach {
                           insertColorList(it)
-                      }
+                      }*/
                       Log.e(javaClass.simpleName, "onResponse: "+response.body()!!.data)
                   }
                }

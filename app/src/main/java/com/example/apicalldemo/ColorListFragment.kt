@@ -92,7 +92,7 @@ class ColorListFragment : Fragment() {
                     if (it.data != null) {
                         val colorsModel: ResponseClass = it.data
                         colorsModel.data.forEach { it1 ->
-                            viewModel.insertColorList(it1)
+                           // viewModel.insertColorList(it1)
                             Log.e(javaClass.simpleName, "insertColorList: $it1")
                         }
                         colorsModel.data.let { res ->

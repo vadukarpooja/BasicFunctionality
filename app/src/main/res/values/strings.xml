@@ -59,4 +59,6 @@
     </string>
     <string name="bluetooth_connection">Bluetooth Connection</string>
     <string name="movie_detail">Movie Detail</string>
+    <string name="issue_list">IssueList</string>
+    <string name="enter_data_limit">Enter data limit</string>
 </resources>

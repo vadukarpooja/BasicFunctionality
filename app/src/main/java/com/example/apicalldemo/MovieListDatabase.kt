@@ -8,7 +8,9 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.apicalldemo.models.ResponseItem
 
+
 @Database(entities = [ResponseItem::class], version = 5, exportSchema = false)
+/*@TypeConverters(ConvertersImageList.class)*/
 abstract class MovieListDatabase : RoomDatabase() {
         abstract fun movieListDao(): MovieListDao
         companion object {

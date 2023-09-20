@@ -29,7 +29,7 @@ class SplashFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToListFragment(""))
+        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIssueListFragment())
         },3000)
     }
 

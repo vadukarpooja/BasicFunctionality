@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.apicalldemo.BASE_URL
 import com.example.apicalldemo.BaseApplication
 import com.example.apicalldemo.BuildConfig
+import com.example.apicalldemo.PAGENATION_BASE_URL
 import com.example.apicalldemo.api.ApiHelper
 import com.example.apicalldemo.api.ApiHelperImpl
 import com.example.apicalldemo.api.ApiService
@@ -25,7 +26,7 @@ object AppModule{
 
     @Singleton
     @Provides
-    fun provideBaseUrl() = BASE_URL
+    fun provideBaseUrl() = PAGENATION_BASE_URL
 
     @Singleton
     @Provides

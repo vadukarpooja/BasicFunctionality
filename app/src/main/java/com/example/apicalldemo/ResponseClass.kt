@@ -3,6 +3,7 @@ package com.example.apicalldemo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.apicalldemo.models.ColorsModel
+import com.example.apicalldemo.models.IssuesModel
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -17,6 +18,6 @@ data class ResponseClass(
     val total: Int = 0,
     @SerializedName("total_pages")
     @Expose val totalPages: Int =0,
-    var data: List<ColorsModel> = arrayListOf()
+    var data: ArrayList<IssuesModel> = arrayListOf()
 )
 

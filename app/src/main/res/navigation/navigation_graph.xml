@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_splashFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_issueListFragment"
+            app:destination="@id/issueListFragment" />
     </fragment>
     <fragment
         android:id="@+id/colorListFragment"
@@ -94,5 +97,10 @@
             android:id="@+id/action_movieItemEdit_to_listFragment"
             app:destination="@id/listFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/issueListFragment"
+        android:name="com.example.apicalldemo.IssueListFragment"
+        android:label="fragment_issue_list"
+        tools:layout="@layout/fragment_issue_list" />
 
 </navigation>

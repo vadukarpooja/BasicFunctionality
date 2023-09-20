@@ -6,5 +6,7 @@ const val BLUETOOTH_DISABLE_ACTION = "android.bluetooth.adapter.action.REQUEST_D
 
 const val BROADCAST = "com.example.apicalldemo.app.android.action.broadcast"
 
+const val PAGENATION_BASE_URL = "https://reqres.in/api/"/*"https://api.github.com/repositories/1300192/"*/
+
 
 
