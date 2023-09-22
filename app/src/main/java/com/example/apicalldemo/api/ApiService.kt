@@ -20,16 +20,15 @@ interface ApiService {
     @GET("movies")
     suspend fun getMoviesList(): Response<ArrayList<ColorsModel>>
 
-  /*  @GET("issues")
+    @GET("issues")
     suspend fun getIssues(@Query("per_page")
                   perPage: Int,
                   @Query("page")
                   page: Int):Response<ArrayList<IssuesModel>>
-*/
 
-    @GET("users")
+    /*@GET("users")
     suspend fun getIssues(@Query("per_page")
                           perPage: Int,
                           @Query("page")
-                          page: Int):Response<ResponseClass>
+                          page: Int):Response<ResponseClass>*/
 }

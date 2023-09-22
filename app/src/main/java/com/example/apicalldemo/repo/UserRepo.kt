@@ -20,11 +20,11 @@ class UserRepo @Inject constructor(private val apiHelper: ApiHelper, application
 
     suspend fun getMoviesList() = apiHelper.getMoviesList()
 
-    /*suspend fun getIssuesList( perPage: Int,
-                               page: Int): Response<ArrayList<IssuesModel>> = apiHelper.getIssuesList(perPage, page)*/
-
     suspend fun getIssuesList( perPage: Int,
-                               page: Int): Response<ResponseClass> = apiHelper.getIssuesList(perPage, page)
+                               page: Int): Response<ArrayList<IssuesModel>> = apiHelper.getIssuesList(perPage, page)
+
+    /*suspend fun getIssuesList( perPage: Int,
+                               page: Int): Response<ResponseClass> = apiHelper.getIssuesList(perPage, page)*/
 
     private  var colorDao: ColorDao
     private  var allColorList: LiveData<List<ColorsModel>>

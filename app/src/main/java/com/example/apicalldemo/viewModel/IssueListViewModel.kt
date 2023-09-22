@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IssueListViewModel @Inject constructor(private val userRepo: UserRepo):ViewModel(){
-    private val _res = MutableLiveData<Resource<ResponseClass>>()
-    val res: LiveData<Resource<ResponseClass>>
+    private val _res = MutableLiveData<Resource<ArrayList<IssuesModel>>>()
+    val res: LiveData<Resource<ArrayList<IssuesModel>>>
         get() = _res
 
     fun getIssueList(perPage:Int,page:Int) = viewModelScope.launch {

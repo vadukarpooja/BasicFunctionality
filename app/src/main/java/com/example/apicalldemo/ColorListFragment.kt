@@ -78,7 +78,10 @@ class ColorListFragment : Fragment() {
            offLineList()
             Log.e(javaClass.simpleName, "offline")
         }
-
+        binding.refresh.setOnRefreshListener {
+            binding.refresh.isRefreshing = true
+            viewModel.getColorList()
+        }
     }
 
 
@@ -90,18 +93,25 @@ class ColorListFragment : Fragment() {
                     binding.progress.visibility = View.GONE
                     binding.rvEmployees.visibility = View.VISIBLE
                     if (it.data != null) {
+
                         val colorsModel: ResponseClass = it.data
                         colorsModel.data.forEach { it1 ->
-                           // viewModel.insertColorList(it1)
+                            viewModel.insertColorList(it1)
                             Log.e(javaClass.simpleName, "insertColorList: $it1")
                         }
                         colorsModel.data.let { res ->
+                            if (binding.refresh.isRefreshing){
+                                adapter.updateDataRefresh(res)
+                            }
+                            else{
+                                adapter = ColorListAdapter(res, onDeleteClick = {}, onEditClick = {}) {
+                                    findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
+                                }
+                                binding.rvEmployees.adapter = adapter
+                            }
                             Log.e(javaClass.simpleName, "onViewCreated: you are online")
                             Log.e(javaClass.simpleName, "res: $res")
-                            /*adapter = ColorListAdapter(res) {
-                                findNavController().navigate(ColorListFragmentDirections.actionColorListFragmentToMapFragment2())
-                            }
-                            binding.rvEmployees.adapter = adapter*/
+
                         }
                     }
                 }

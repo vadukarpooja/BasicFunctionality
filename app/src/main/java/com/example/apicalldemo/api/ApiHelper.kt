@@ -11,8 +11,8 @@ interface ApiHelper {
 
     suspend fun getMoviesList():Response<ArrayList<ColorsModel>>
 
-/*
     suspend fun getIssuesList(perPage: Int, page: Int):Response<ArrayList<IssuesModel>>
-*/
+/*
 suspend fun getIssuesList(perPage: Int, page: Int):Response<ResponseClass>
+*/
 }

@@ -1,6 +1,8 @@
 package com.example.apicalldemo
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,10 @@ import com.example.apicalldemo.databinding.FragmentIssueListBinding
 import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.viewModel.IssueListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runInterruptible
+import java.util.Collections
+import java.util.Random
+import kotlin.properties.Delegates
 
 
 @AndroidEntryPoint
@@ -23,10 +29,10 @@ class IssueListFragment : Fragment() {
     lateinit var binding: FragmentIssueListBinding
     val viewModel: IssueListViewModel by viewModels()
     lateinit var adapter: IssueListAdapter
-    private var count: Int = 1
+    private var count: Int = 0
     private var perPage: Int = 10
     private var page: Int = 1
-    private var isLod:Boolean = false
+    private var isLod: Boolean = false
     var update: Int? = null
     var list: ArrayList<IssuesModel> = arrayListOf()
 
@@ -44,6 +50,9 @@ class IssueListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = IssueListAdapter(arrayListOf())
         viewModel.getIssueList(perPage, page)
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getIssueList(perPage, page)
+        }
         binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (v.getChildAt(v.childCount - 1) != null) {
                 if (scrollY >= v.getChildAt(v.childCount - 1)
@@ -51,20 +60,22 @@ class IssueListFragment : Fragment() {
                     scrollY > oldScrollY
                 ) {
                     Log.e(javaClass.simpleName, "lastIndex:")
-
-                    update = page+1
-                    Toast.makeText(requireContext(), "10 data added", Toast.LENGTH_SHORT).show()
-                    Log.e(javaClass.simpleName, "limit if: $update")
-                    binding.idPBLoading.visibility = View.VISIBLE
-                    viewModel.getIssueList(perPage, update!!)
-                   /* if (update == null) {
-                        update = count
-                    }else {
-
-                        Toast.makeText(requireContext(), "$update data Add else", Toast.LENGTH_SHORT).show()
-
-                        Log.e(javaClass.simpleName, "limit else: $update")
-                    }*/
+                    if (update == null) {
+                        update = page + 1
+                    } else {
+                        count = update!!
+                        Log.e(javaClass.simpleName, "limit if: ${count++}")
+                        update = count++
+                        Toast.makeText(requireContext(), "10 data added", Toast.LENGTH_SHORT).show()
+                    }
+                    if (update == 11) {
+                        Toast.makeText(requireContext(), "Data limit is 100 ", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Log.e(javaClass.simpleName, "limit if: $update")
+                        binding.idPBLoading.visibility = View.VISIBLE
+                        viewModel.getIssueList(perPage, update!!)
+                    }
                 }
             }
         } as NestedScrollView.OnScrollChangeListener)
@@ -82,21 +93,29 @@ class IssueListFragment : Fragment() {
                     if (it.data != null) {
                         binding.idPBLoading.visibility = View.GONE
                         binding.recycleIssueList.visibility = View.VISIBLE
-                        if (isLod){
-                            adapter.updateData(it.data.data)
-                        }
-                        else{
+                        if (isLod) {
+                            if (binding.swipeRefresh.isRefreshing) {
+                                binding.swipeRefresh.isRefreshing = false
+                                adapter.updateDataRefresh(it.data)
+                            } else {
+                                adapter.updateData(it.data)
+                            }
+                            Log.e(javaClass.simpleName, "update list " + it.data)
+                            Log.e(javaClass.simpleName, "update listSize: " + it.data.size)
+                        } else {
                             isLod = true
-                            adapter = IssueListAdapter(it.data.data)
+                            adapter = IssueListAdapter(it.data)
                             binding.recycleIssueList.adapter = adapter
-
+                            Log.e(javaClass.simpleName, "Add list " + it.data)
+                            Log.e(javaClass.simpleName, "Add list: " + it.data.size)
                         }
-                        Log.e(javaClass.simpleName, "listSize " + it.data)
+
                     }
                 }
 
                 Status.LOADING -> {
                     binding.idPBLoading.visibility = View.VISIBLE
+                   // binding.recycleIssueList.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
@@ -107,7 +126,7 @@ class IssueListFragment : Fragment() {
         })
     }
 
-    fun listAdd(list:ArrayList<IssuesModel>){
+    private fun task(countUpdate: Int? = null) {
 
     }
 }

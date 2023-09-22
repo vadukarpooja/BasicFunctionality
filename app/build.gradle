@@ -134,4 +134,6 @@ dependencies {
     implementation ('com.squareup.moshi:moshi:1.8.0')
     kapt ('com.squareup.moshi:moshi-kotlin-codegen:1.8.0')
 
+    implementation ('androidx.swiperefreshlayout:swiperefreshlayout:1.1.0')
+
 }

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".IssueListFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,55 +20,56 @@
 
         <TextView
             android:id="@+id/title"
-            android:text="@string/issue_list"
-            android:gravity="center"
-            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:text="@string/issue_list"
             android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtPerPageValue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/enter_data_limit"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:visibility="gone"
-        android:id="@+id/edtPerPageValue"
-        android:layout_marginHorizontal="20dp"
-        android:hint="@string/enter_data_limit"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:text="Add"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/edtPerPageValue"
+            app:layout_constraintStart_toStartOf="@id/edtPerPageValue"
+            app:layout_constraintTop_toBottomOf="@id/edtPerPageValue" />
 
-    <Button
-        android:visibility="gone"
-        android:text="Add"
-        android:id="@+id/btnAdd"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="@id/edtPerPageValue"
-        app:layout_constraintStart_toStartOf="@id/edtPerPageValue"
-        app:layout_constraintTop_toBottomOf="@id/edtPerPageValue"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"/>
-
-  <androidx.recyclerview.widget.RecyclerView
-      android:visibility="visible"
-      android:id="@+id/recycleIssueList"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="100dp"
-      tools:listitem="@layout/raw_color_list"
-      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      app:layout_constraintTop_toBottomOf="@id/title"
-      />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleIssueList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:itemCount="10"
+            tools:listitem="@layout/raw_color_list" />
 
         <ProgressBar
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/recycleIssueList"
             android:id="@+id/idPBLoading"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/recycleIssueList" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -6,12 +6,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
+import com.example.apicalldemo.models.ColorsModel
 import com.example.apicalldemo.models.Images
+import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.models.ResponseItem
 import com.example.apicalldemo.onClick
 
 
-class ColorListAdapter(private val colorList: List<ResponseItem>, var onEditClick:(ResponseItem)->Unit ,var onDeleteClick:(ResponseItem)->Unit , var onItem:(ResponseItem)->Unit ) :
+class ColorListAdapter(private val colorList: ArrayList<ColorsModel>, var onEditClick:(ResponseItem)->Unit ,var onDeleteClick:(ResponseItem)->Unit , var onItem:(ResponseItem)->Unit ) :
     RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
          val  name: TextView = view.findViewById(R.id.colorName)
@@ -19,8 +21,8 @@ class ColorListAdapter(private val colorList: List<ResponseItem>, var onEditClic
          val delete:ImageView = view.findViewById(R.id.delete)
 
 
-        fun onBind(model: ResponseItem) {
-            name.text = model.title
+        fun onBind(model: ColorsModel) {
+            name.text = model.color
             //year.text = model.year
 
 
@@ -32,12 +34,17 @@ class ColorListAdapter(private val colorList: List<ResponseItem>, var onEditClic
             LayoutInflater.from(parent.context).inflate(R.layout.raw_color_list, parent, false)
         )
     }
+    fun updateDataRefresh(viewModels:ArrayList<ColorsModel>) {
+        colorList.clear()
+        colorList.addAll(viewModels)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: ColorListAdapter.ViewHolder, position: Int) {
         holder.onBind(colorList[position])
        // Log.e("test", "onBindViewHolder: "+colorList[position])
 //        holder.itemView.setBackgroundColor(Color.parseColor(colorList[position].color))
-        holder.edit.setOnClickListener {
+        /*holder.edit.setOnClickListener {
             onEditClick.invoke(colorList[position])
         }
         holder.delete.setOnClickListener {
@@ -45,7 +52,7 @@ class ColorListAdapter(private val colorList: List<ResponseItem>, var onEditClic
         }
         holder.itemView.setOnClickListener {
             onItem.invoke(colorList[position])
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {

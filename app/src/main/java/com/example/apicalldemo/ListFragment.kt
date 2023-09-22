@@ -176,7 +176,7 @@ class ListFragment : Fragment() ,CountInterFace{
             Log.e(javaClass.simpleName, "offLineList it: $it")
         }
         Log.e(javaClass.simpleName, "offLineList: $data")
-        adapter = ColorListAdapter(data, onEditClick = {
+       /* adapter = ColorListAdapter(data, onEditClick = {
         }, onDeleteClick = {
         }, onItem = {
             findNavController().navigate(
@@ -184,7 +184,7 @@ class ListFragment : Fragment() ,CountInterFace{
                     data = it
                 )
             )
-        })
+        })*/
         binding.rvEmployees.adapter = adapter
     }
 
@@ -192,7 +192,7 @@ class ListFragment : Fragment() ,CountInterFace{
     private fun roomDataBase() {
         movieVM.getAllMovieItem().observe(viewLifecycleOwner) { it1 ->
             Log.e(javaClass.simpleName, "roomDataBase: $it1")
-            adapter = ColorListAdapter(it1, onEditClick = { itEdit ->
+            /*adapter = ColorListAdapter(it1, onEditClick = { itEdit ->
                 findNavController().navigate(
                     ListFragmentDirections.actionListFragmentToMovieItemEdit(itEdit)
                 )
@@ -225,7 +225,7 @@ class ListFragment : Fragment() ,CountInterFace{
                         item
                     )
                 )
-            })
+            })*/
             binding.rvEmployees.adapter = adapter
 
         }

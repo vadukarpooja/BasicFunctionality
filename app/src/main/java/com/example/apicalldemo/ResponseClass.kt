@@ -18,6 +18,6 @@ data class ResponseClass(
     val total: Int = 0,
     @SerializedName("total_pages")
     @Expose val totalPages: Int =0,
-    var data: ArrayList<IssuesModel> = arrayListOf()
+    var data: ArrayList<ColorsModel> = arrayListOf()
 )
 

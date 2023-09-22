@@ -9,14 +9,14 @@ import javax.inject.Inject
 class ApiHelperImpl @Inject constructor(private val apiService: ApiService):ApiHelper {
     override suspend fun getColorList(): Response<ResponseClass> = apiService.getColorsList()
     override suspend fun getMoviesList(): Response<ArrayList<ColorsModel>> = apiService.getMoviesList()
-   /* override suspend fun getIssuesList(
-        perPage: Int,
-        page: Int
-    ): Response<ArrayList<IssuesModel>> = apiService.getIssues(perPage,page)*/
-
     override suspend fun getIssuesList(
         perPage: Int,
         page: Int
-    ): Response<ResponseClass> = apiService.getIssues(perPage,page)
+    ): Response<ArrayList<IssuesModel>> = apiService.getIssues(perPage,page)
+
+    /*override suspend fun getIssuesList(
+        perPage: Int,
+        page: Int
+    ): Response<ResponseClass> = apiService.getIssues(perPage,page)*/
 
 }
