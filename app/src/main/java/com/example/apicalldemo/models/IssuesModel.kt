@@ -9,6 +9,8 @@ data class IssuesModel(
     var user: User = User(),*/
     @SerializedName("title")
     var title: String = "",
+    val name:String = "",
+    var isOnclick:Boolean = false
   /*  @SerializedName("id")
     var id:String ,
     @SerializedName("email")

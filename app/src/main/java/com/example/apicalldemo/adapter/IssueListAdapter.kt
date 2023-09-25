@@ -1,20 +1,19 @@
 package com.example.apicalldemo.adapter
 
 import android.annotation.SuppressLint
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
 import com.example.apicalldemo.models.IssuesModel
-import com.google.android.gms.common.api.GoogleApi
 
 
 class IssueListAdapter(val items: ArrayList<IssuesModel>,var onClick:(IssuesModel) ->Unit) :
     RecyclerView.Adapter<IssueListAdapter.ViewHolder>(){
+     var expandedPosition = -1
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v: View =
@@ -49,10 +48,29 @@ class IssueListAdapter(val items: ArrayList<IssuesModel>,var onClick:(IssuesMode
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.name.text = position.toString()+"."+" "+item.title
+        val adapter = ChildListAdapter(list(),onClick= {
+        })
+        holder.list.adapter = adapter
         holder.itemView.setOnClickListener {
             onClick.invoke(items[position])
+            if (position == expandedPosition) {
+                notifyItemChanged(position)
+                expandedPosition = -1
+            } else {
+                if (expandedPosition != -1) {
+                    notifyItemChanged(expandedPosition)
+                }
+                expandedPosition = position
+                notifyItemChanged(position)
+            }
         }
 
+
+        if (position== expandedPosition) {
+            holder.list.visibility = View.VISIBLE
+        } else {
+            holder.list.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -62,7 +80,14 @@ class IssueListAdapter(val items: ArrayList<IssuesModel>,var onClick:(IssuesMode
 
      inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
          val name: TextView = view.findViewById(R.id.colorName)
+         val list:RecyclerView = view.findViewById(R.id.recycleIssueList)
      }
-
+    fun list(): ArrayList<IssuesModel> {
+        val list = ArrayList<IssuesModel>()
+        list.add(IssuesModel(name = "Test1"))
+        list.add(IssuesModel(name = "Test2"))
+        list.add(IssuesModel(name = "Test3"))
+        return list
+    }
 
  }
