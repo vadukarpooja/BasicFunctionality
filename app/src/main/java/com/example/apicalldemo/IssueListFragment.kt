@@ -48,7 +48,7 @@ class IssueListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = IssueListAdapter(arrayListOf())
+        adapter = IssueListAdapter(arrayListOf(), onClick = {})
         viewModel.getIssueList(perPage, page)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.getIssueList(perPage, page)
@@ -104,7 +104,7 @@ class IssueListFragment : Fragment() {
                             Log.e(javaClass.simpleName, "update listSize: " + it.data.size)
                         } else {
                             isLod = true
-                            adapter = IssueListAdapter(it.data)
+                            adapter = IssueListAdapter(it.data, onClick = {})
                             binding.recycleIssueList.adapter = adapter
                             Log.e(javaClass.simpleName, "Add list " + it.data)
                             Log.e(javaClass.simpleName, "Add list: " + it.data.size)

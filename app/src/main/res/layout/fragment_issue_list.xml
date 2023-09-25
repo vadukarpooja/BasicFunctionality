@@ -63,6 +63,8 @@
             tools:itemCount="10"
             tools:listitem="@layout/raw_color_list" />
 
+
+
         <ProgressBar
             android:id="@+id/idPBLoading"
             android:layout_width="match_parent"

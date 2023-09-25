@@ -13,13 +13,12 @@ import com.example.apicalldemo.models.IssuesModel
 import com.google.android.gms.common.api.GoogleApi
 
 
-class IssueListAdapter(val items: ArrayList<IssuesModel>) :
-    RecyclerView.Adapter<IssueListAdapter.ViewHolder>(), View.OnClickListener {
+class IssueListAdapter(val items: ArrayList<IssuesModel>,var onClick:(IssuesModel) ->Unit) :
+    RecyclerView.Adapter<IssueListAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.raw_issue_item, parent, false)
-        v.setOnClickListener(this)
+            LayoutInflater.from(parent.context).inflate(R.layout.raw_color_list, parent, false)
         return ViewHolder(v)
     }
 
@@ -50,6 +49,9 @@ class IssueListAdapter(val items: ArrayList<IssuesModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.name.text = position.toString()+"."+" "+item.title
+        holder.itemView.setOnClickListener {
+            onClick.invoke(items[position])
+        }
 
     }
 
@@ -59,10 +61,8 @@ class IssueListAdapter(val items: ArrayList<IssuesModel>) :
 
 
      inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-         val name: TextView = view.findViewById(R.id.title)
+         val name: TextView = view.findViewById(R.id.colorName)
      }
 
-     override fun onClick(v: View?) {
 
-     }
  }
