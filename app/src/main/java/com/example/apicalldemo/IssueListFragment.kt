@@ -1,8 +1,6 @@
 package com.example.apicalldemo
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +10,14 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.adapter.IssueListAdapter
 import com.example.apicalldemo.databinding.FragmentIssueListBinding
 import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.viewModel.IssueListViewModel
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runInterruptible
-import java.util.Collections
-import java.util.Random
-import kotlin.properties.Delegates
 
 
 @AndroidEntryPoint
@@ -35,7 +31,8 @@ class IssueListFragment : Fragment() {
     private var isLod: Boolean = false
     var update: Int? = null
     var list: ArrayList<IssuesModel> = arrayListOf()
-
+    var isUserScrolling: Boolean = false
+    var linearLayoutManager: LinearLayoutManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +50,7 @@ class IssueListFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.getIssueList(perPage, page)
         }
+
         binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (v.getChildAt(v.childCount - 1) != null) {
                 if (scrollY >= v.getChildAt(v.childCount - 1)
@@ -93,6 +91,7 @@ class IssueListFragment : Fragment() {
                     if (it.data != null) {
                         binding.idPBLoading.visibility = View.GONE
                         binding.recycleIssueList.visibility = View.VISIBLE
+                        list = it.data
                         if (isLod) {
                             if (binding.swipeRefresh.isRefreshing) {
                                 binding.swipeRefresh.isRefreshing = false
@@ -115,7 +114,7 @@ class IssueListFragment : Fragment() {
 
                 Status.LOADING -> {
                     binding.idPBLoading.visibility = View.VISIBLE
-                   // binding.recycleIssueList.visibility = View.GONE
+                    // binding.recycleIssueList.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
@@ -126,7 +125,5 @@ class IssueListFragment : Fragment() {
         })
     }
 
-    private fun task(countUpdate: Int? = null) {
 
-    }
 }

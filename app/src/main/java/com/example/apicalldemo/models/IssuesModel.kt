@@ -21,3 +21,12 @@ data class User(
     @SerializedName("login")
     var login: String = ""
 )
+
+class Category(val name: String, vararg item: Item) {
+
+    val listOfItems: List<Item> = item.toList()
+
+}
+
+class Item(val content: String) {
+}

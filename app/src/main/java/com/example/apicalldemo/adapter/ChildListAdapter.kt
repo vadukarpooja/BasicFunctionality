@@ -7,20 +7,23 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
+import com.example.apicalldemo.models.Category
 import com.example.apicalldemo.models.IssuesModel
 
 
-class ChildListAdapter(val list: ArrayList<IssuesModel>, var onClick:(IssuesModel) ->Unit) :
+class ChildListAdapter(val list: MutableList<Category>,var childList:ArrayList<IssuesModel>, var onClick:(Int) ->Unit) :
     RecyclerView.Adapter<ChildListAdapter.ViewHolder>(){
+    private var expandedPosition = -1
+    var position1 = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.raw_color_list, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.raw_issue_item, parent, false)
         return ViewHolder(v)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(viewModels:ArrayList<IssuesModel>) {
+    fun updateData(viewModels:ArrayList<Category>) {
         list.addAll(viewModels)
         notifyDataSetChanged()
     }
@@ -32,9 +35,33 @@ class ChildListAdapter(val list: ArrayList<IssuesModel>, var onClick:(IssuesMode
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val obj = list[position]
+        position1 = position
         holder.name.text = position.toString()+"."+" "+obj.name
         holder.itemView.setOnClickListener {
-            onClick.invoke(list[position])
+            onClick.invoke(position)
+        }
+        val adapter = TabSyncAdapter(obj.listOfItems,onClick= {
+        })
+        holder.list.adapter = adapter
+        holder.itemView.setOnClickListener {
+            onClick.invoke(position)
+            if (position == expandedPosition) {
+                notifyItemChanged(position)
+                expandedPosition = -1
+            } else {
+                if (expandedPosition != -1) {
+                    notifyItemChanged(expandedPosition)
+                }
+                expandedPosition = position
+                notifyItemChanged(position)
+            }
+        }
+
+
+        if (position== expandedPosition) {
+            holder.list.visibility = View.VISIBLE
+        } else {
+            holder.list.visibility = View.GONE
         }
 
     }
@@ -43,11 +70,9 @@ class ChildListAdapter(val list: ArrayList<IssuesModel>, var onClick:(IssuesMode
         return list.size
     }
 
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.colorName)
+        val name: TextView = view.findViewById(R.id.title)
+        val list:RecyclerView = view.findViewById(R.id.recycleChildIssueList)
     }
-
-
 }
 

@@ -48,9 +48,9 @@ class IssueListAdapter(val items: ArrayList<IssuesModel>,var onClick:(IssuesMode
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.name.text = position.toString()+"."+" "+item.title
-        val adapter = ChildListAdapter(list(),onClick= {
+       /* val adapter = ChildListAdapter(list(), arrayListOf(),onClick= {
         })
-        holder.list.adapter = adapter
+        holder.list.adapter = adapter*/
         holder.itemView.setOnClickListener {
             onClick.invoke(items[position])
             if (position == expandedPosition) {

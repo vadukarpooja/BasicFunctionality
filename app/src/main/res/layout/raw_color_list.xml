@@ -29,8 +29,7 @@
       android:id="@+id/recycleIssueList"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
-      android:visibility="gone"
+      android:visibility="visible"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       app:layout_constraintTop_toBottomOf="@id/colorName"
       />

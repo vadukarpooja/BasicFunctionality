@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_splashFragment_to_issueListFragment"
             app:destination="@id/issueListFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_nestedListFragment"
+            app:destination="@id/nestedListFragment" />
     </fragment>
     <fragment
         android:id="@+id/colorListFragment"
@@ -102,5 +105,10 @@
         android:name="com.example.apicalldemo.IssueListFragment"
         android:label="fragment_issue_list"
         tools:layout="@layout/fragment_issue_list" />
+    <fragment
+        android:id="@+id/nestedListFragment"
+        android:name="com.example.apicalldemo.NestedListFragment"
+        android:label="fragment_nested_list"
+        tools:layout="@layout/fragment_nested_list" />
 
 </navigation>
