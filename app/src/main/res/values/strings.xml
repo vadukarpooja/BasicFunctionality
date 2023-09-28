@@ -61,4 +61,17 @@
     <string name="movie_detail">Movie Detail</string>
     <string name="issue_list">IssueList</string>
     <string name="enter_data_limit">Enter data limit</string>
+    <string name="bluetoothconnection">BlueToothConnection</string>
+    <string name="crudoperation">CrudOperation</string>
+    <string name="imagepick">ImagePick</string>
+    <string name="backgroundcountupdate">BackGroundCountUpdate</string>
+    <string name="syntablist">SynTabList</string>
+    <string name="readcontactlist">ReadContactList</string>
+    <string name="paginationwithswipetorefresh">PaginationWithSwipeToRefresh</string>
+    <string name="chat">Chat</string>
+    <string name="geeksforgeeks">GeeksforGeeks</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
 </resources>

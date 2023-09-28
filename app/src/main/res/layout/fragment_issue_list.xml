@@ -6,13 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IssueListFragment">
+    tools:context=".paginationwithswiptorefresh.IssueListFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lay"
@@ -33,19 +32,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            app:layout_constraintTop_toBottomOf="@id/title"/>
-        <androidx.viewpager.widget.ViewPager
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
-            android:id="@+id/view_pager"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleIssueList"
             android:layout_width="match_parent"
@@ -53,7 +39,7 @@
             android:layout_marginTop="80dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/view_pager"
+            app:layout_constraintTop_toBottomOf="@id/title"
             tools:itemCount="10"
             tools:listitem="@layout/raw_color_list" />
 

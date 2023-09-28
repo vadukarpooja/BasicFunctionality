@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/colorListFragment"
-        android:name="com.example.apicalldemo.ColorListFragment"
+        android:name="com.example.apicalldemo.roomDataBase.ColorListFragment"
         android:label="fragment_color_list"
         tools:layout="@layout/fragment_color_list">
 
@@ -54,7 +54,7 @@
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.apicalldemo.ListFragment"
+        android:name="com.example.apicalldemo.roomDataBase.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <argument
@@ -70,7 +70,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.example.apicalldemo.EditFragment"
+        android:name="com.example.apicalldemo.crusOpration.EditFragment"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" >
 
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.example.apicalldemo.MovieListFragment"
+        android:name="com.example.apicalldemo.roomDataBase.MovieListFragment"
         android:label="fragment_movie_list"
         tools:layout="@layout/fragment_movie_list" >
 
@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieItemEdit"
-        android:name="com.example.apicalldemo.MovieItemEdit"
+        android:name="com.example.apicalldemo.roomDataBase.MovieItemEdit"
         android:label="fragment_movie_detail_update"
         tools:layout="@layout/fragment_movie_detail_update" >
         <argument
@@ -102,13 +102,23 @@
     </fragment>
     <fragment
         android:id="@+id/issueListFragment"
-        android:name="com.example.apicalldemo.IssueListFragment"
+        android:name="com.example.apicalldemo.paginationwithswiptorefresh.IssueListFragment"
         android:label="fragment_issue_list"
         tools:layout="@layout/fragment_issue_list" />
     <fragment
         android:id="@+id/nestedListFragment"
-        android:name="com.example.apicalldemo.NestedListFragment"
+        android:name="com.example.apicalldemo.synTabList.NestedListFragment"
         android:label="fragment_nested_list"
         tools:layout="@layout/fragment_nested_list" />
+    <activity
+        android:id="@+id/chatConnectionActivity"
+        android:name="com.example.apicalldemo.imagePick.ChatConnectionActivity"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/updateCountFragment"
+        android:name="com.example.apicalldemo.backgrounCountUpdate.service.UpdateCountFragment"
+        android:label="fragment_update_count"
+        tools:layout="@layout/fragment_update_count" />
 
 </navigation>

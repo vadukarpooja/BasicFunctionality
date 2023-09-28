@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.apicalldemo.Resource
-import com.example.apicalldemo.ResponseClass
+import com.example.apicalldemo.utils.Resource
 import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel

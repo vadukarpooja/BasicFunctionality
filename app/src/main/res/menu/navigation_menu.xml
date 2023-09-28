@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/crudOperation"
+        android:title="@string/crudoperation"/>
+    <item
+        android:id="@+id/bluetooth"
+        android:title="@string/bluetoothconnection"
+        />
+    <item
+        android:id="@+id/imagePick"
+        android:title="@string/imagepick"/>
+    <item
+        android:id="@+id/backGroundCountUpdate"
+        android:title="@string/backgroundcountupdate"/>
+
+    <item
+        android:id="@+id/synTabList"
+        android:title="@string/syntablist"/>
+    <item
+        android:id="@+id/readContactList"
+        android:title="@string/readcontactlist"/>
+    <item
+        android:id="@+id/pagination"
+        android:title="@string/paginationwithswipetorefresh"/>
+    <item
+        android:id="@+id/chat"
+        android:title="@string/chat"/>
+</menu>

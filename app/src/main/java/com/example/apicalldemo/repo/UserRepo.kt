@@ -3,13 +3,12 @@ package com.example.apicalldemo.repo
 
 import androidx.lifecycle.LiveData
 import com.example.apicalldemo.BaseApplication
-import com.example.apicalldemo.ColorDao
-import com.example.apicalldemo.ColorDataBase
-import com.example.apicalldemo.ResponseClass
+import com.example.apicalldemo.roomDataBase.ColorDao
+import com.example.apicalldemo.roomDataBase.ColorDataBase
 import com.example.apicalldemo.api.ApiHelper
 import com.example.apicalldemo.models.ColorsModel
 import com.example.apicalldemo.models.IssuesModel
-import com.example.apicalldemo.subscribeOnBackground
+import com.example.apicalldemo.utils.subscribeOnBackground
 import retrofit2.Response
 import javax.inject.Inject
 

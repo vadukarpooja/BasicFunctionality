@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:id="@+id/refresh"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ColorListFragment">
+    tools:context=".roomDataBase.ColorListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

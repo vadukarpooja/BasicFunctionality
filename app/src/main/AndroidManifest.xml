@@ -35,19 +35,24 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".ThreadActivity"
+            android:name=".imagePick.LoginActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".coroutines.ThreadActivity"
             android:exported="false" />
         <activity
-            android:name=".ListUpdate"
+            android:name=".crusOpration.ListUpdate"
             android:exported="false" />
         <activity
-            android:name=".BluetoothChat"
+            android:name=".bluetoothConnection.BluetoothChat"
             android:exported="false" />
         <activity
-            android:name=".ReadContactList"
+            android:name=".readContectList.ReadContactList"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".base.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,13 +60,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChatConnectActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity android:name=".socket.ChatConnectActivity" />
 
         <service
-            android:name=".ForegroundService"
+            android:name=".backgrounCountUpdate.service.ForegroundService"
             android:permission="android.permission.FOREGROUND_SERVICE" />
 
         <meta-data
@@ -69,7 +71,7 @@
             android:value="@string/MAPS_API_KEY" />
 
         <receiver
-            android:name=".Receiver"
+            android:name=".backgrounCountUpdate.brodcast.Receiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />

@@ -1,10 +1,9 @@
 package com.example.apicalldemo.di
 
 import android.content.Context
-import com.example.apicalldemo.BASE_URL
 import com.example.apicalldemo.BaseApplication
 import com.example.apicalldemo.BuildConfig
-import com.example.apicalldemo.PAGENATION_BASE_URL
+import com.example.apicalldemo.utils.PAGENATION_BASE_URL
 import com.example.apicalldemo.api.ApiHelper
 import com.example.apicalldemo.api.ApiHelperImpl
 import com.example.apicalldemo.api.ApiService
@@ -60,7 +59,7 @@ object AppModule{
 
     @Singleton
     @Provides
-    fun provideApplication(@ApplicationContext app: Context):   BaseApplication{
+    fun provideApplication(@ApplicationContext app: Context): BaseApplication {
         return app as BaseApplication
     }
 }

@@ -7,10 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
 import com.example.apicalldemo.models.ColorsModel
-import com.example.apicalldemo.models.Images
-import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.models.ResponseItem
-import com.example.apicalldemo.onClick
 
 
 class ColorListAdapter(private val colorList: ArrayList<ColorsModel>, var onEditClick:(ResponseItem)->Unit ,var onDeleteClick:(ResponseItem)->Unit , var onItem:(ResponseItem)->Unit ) :

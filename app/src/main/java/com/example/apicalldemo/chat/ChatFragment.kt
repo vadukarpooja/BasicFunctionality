@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
-import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -25,11 +24,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.BaseApplication
-import com.example.apicalldemo.ChatConnectActivity
+import com.example.apicalldemo.socket.ChatConnectActivity
 import com.example.apicalldemo.R
 import com.example.apicalldemo.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
