@@ -14,12 +14,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.apicalldemo.base.MainActivity
 import com.example.apicalldemo.databinding.ActivityBlueToothchatBinding
 import com.example.apicalldemo.utils.BLUETOOTH_DISABLE_ACTION
 
@@ -28,6 +30,7 @@ open class BluetoothChat : AppCompatActivity() {
     private lateinit var binding: ActivityBlueToothchatBinding
     private var requestBluetooth: ActivityResultLauncher<Intent>? = null
     private var pairedDevices: Set<BluetoothDevice>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBlueToothchatBinding.inflate(layoutInflater)

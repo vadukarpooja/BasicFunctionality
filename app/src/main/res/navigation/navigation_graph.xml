@@ -124,6 +124,10 @@
         android:id="@+id/mathsOperation2"
         android:name="com.example.apicalldemo.MathsOperation"
         android:label="fragment_methemetics_opration"
-        tools:layout="@layout/fragment_methemetics_opration" />
+        tools:layout="@layout/fragment_methemetics_opration" >
+        <action
+            android:id="@+id/action_mathsOperation2_self"
+            app:destination="@id/mathsOperation2" />
+    </fragment>
 
 </navigation>

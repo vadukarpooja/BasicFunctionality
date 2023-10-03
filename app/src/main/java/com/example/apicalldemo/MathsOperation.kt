@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.apicalldemo.adapter.MatchOperationAdapter
 import com.example.apicalldemo.databinding.FragmentMethemeticsOprationBinding
 import com.example.apicalldemo.models.IssuesModel
@@ -41,8 +42,10 @@ class MathsOperation : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.radio.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+        binding.btnReset.setOnClickListener {
+          findNavController().navigate(MathsOperationDirections.actionMathsOperation2Self())
+        }
+        binding.radio.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { _, checkedId ->
             binding.recycle.visibility = View.VISIBLE// find which radio button is selected
             when (checkedId) {
                 R.id.rbSubtraction -> {
@@ -80,7 +83,7 @@ class MathsOperation : Fragment() {
 
         })
 
-        val random = list().shuffled()
+        val random:ArrayList<IssuesModel> = list().shuffled() as ArrayList<IssuesModel>
         adapter = MatchOperationAdapter(random as ArrayList<IssuesModel>, onClick = {
             binding.number.text = it.number.toString()
             if (binding.sumNumber.text.isEmpty()) {

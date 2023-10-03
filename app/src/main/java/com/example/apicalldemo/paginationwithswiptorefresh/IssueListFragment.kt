@@ -1,5 +1,6 @@
 package com.example.apicalldemo.paginationwithswiptorefresh
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apicalldemo.adapter.IssueListAdapter
+import com.example.apicalldemo.base.MainActivity
 import com.example.apicalldemo.databinding.FragmentIssueListBinding
 import com.example.apicalldemo.models.IssuesModel
 import com.example.apicalldemo.utils.Status
@@ -40,7 +42,6 @@ class IssueListFragment : Fragment() {
         binding = FragmentIssueListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

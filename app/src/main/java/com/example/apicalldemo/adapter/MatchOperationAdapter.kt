@@ -1,6 +1,5 @@
 package com.example.apicalldemo.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apicalldemo.R
 import com.example.apicalldemo.models.IssuesModel
-import com.example.apicalldemo.utils.list
-import kotlin.random.Random
 
 class MatchOperationAdapter(val list: ArrayList<IssuesModel>,val onClick:(IssuesModel)->Unit) :
     RecyclerView.Adapter<MatchOperationAdapter.ViewHolder>() {

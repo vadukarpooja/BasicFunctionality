@@ -17,6 +17,7 @@
 
 
         <androidx.appcompat.widget.Toolbar
+            android:visibility="gone"
             android:id="@+id/toolbar"
             app:title="CustomModule App"
             app:titleTextColor="@color/white"

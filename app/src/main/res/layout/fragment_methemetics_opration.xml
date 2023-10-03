@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swipeRefresh"
     tools:context=".MathsOperation">
+
+
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtSelect"
@@ -12,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="25dp"
-        android:text="Select One Option"
+        android:text="@string/select_one_option"
         android:textColor="@color/black"
         android:textSize="22sp"
         app:layout_constrainedWidth="true"
@@ -34,25 +38,33 @@
             android:id="@+id/rbSubtraction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subtraction" />
+            android:minHeight="48dp"
+            android:text="@string/subtraction"
+            tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
             android:id="@+id/rbAddition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Addition" />
+            android:minHeight="48dp"
+            android:text="@string/addition"
+            tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
             android:id="@+id/rbMultiplication"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Multiplication" />
+            android:minHeight="48dp"
+            android:text="@string/multiplication"
+            tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
             android:id="@+id/rbDivision"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Division" />
+            android:minHeight="48dp"
+            android:text="@string/division"
+            tools:ignore="VisualLintButtonSize" />
 
     </RadioGroup>
 
@@ -97,8 +109,14 @@
         app:layout_constraintStart_toEndOf="@id/number"
         app:layout_constraintTop_toTopOf="@id/number" />
 
-  <!--  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnReset"
+        android:text="@string/reset"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="@id/sumNumber"
+        app:layout_constraintStart_toStartOf="@id/number"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sumNumber"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
