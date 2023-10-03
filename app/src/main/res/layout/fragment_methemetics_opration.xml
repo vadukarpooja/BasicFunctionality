@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipeRefresh"
+    tools:context=".MathsOperation">
+
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/select_one_option"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="@id/recycle"
+        app:layout_constraintStart_toStartOf="@id/recycle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="@id/txtSelect"
+        app:layout_constraintStart_toStartOf="@id/txtSelect"
+        app:layout_constraintTop_toBottomOf="@id/txtSelect">
+
+        <RadioButton
+            android:id="@+id/rbSubtraction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/subtraction"
+            tools:ignore="VisualLintButtonSize" />
+
+        <RadioButton
+            android:id="@+id/rbAddition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/addition"
+            tools:ignore="VisualLintButtonSize" />
+
+        <RadioButton
+            android:id="@+id/rbMultiplication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/multiplication"
+            tools:ignore="VisualLintButtonSize" />
+
+        <RadioButton
+            android:id="@+id/rbDivision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/division"
+            tools:ignore="VisualLintButtonSize" />
+
+    </RadioGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/radio"
+        app:spanCount="3"
+        tools:listitem="@layout/raw_math_operaion" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/sumNumber"
+        app:layout_constraintStart_toStartOf="@id/recycle"
+        app:layout_constraintTop_toBottomOf="@id/recycle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/sumNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/number"
+        app:layout_constraintTop_toTopOf="@id/number" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnReset"
+        android:text="@string/reset"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="@id/sumNumber"
+        app:layout_constraintStart_toStartOf="@id/number"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sumNumber"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>

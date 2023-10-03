@@ -10,7 +10,8 @@ data class IssuesModel(
     @SerializedName("title")
     var title: String = "",
     val name:String = "",
-    var isOnclick:Boolean = false
+    var isOnclick:Boolean = false,
+    var number:Int = 0
   /*  @SerializedName("id")
     var id:String ,
     @SerializedName("email")

@@ -73,5 +73,12 @@
 
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="mathsoperation">MathsOperation</string>
+    <string name="subtraction">Subtraction</string>
+    <string name="reset">Reset</string>
+    <string name="addition">Addition</string>
+    <string name="multiplication">Multiplication</string>
+    <string name="division">Division</string>
+    <string name="select_one_option">Select One Option</string>
 
 </resources>
