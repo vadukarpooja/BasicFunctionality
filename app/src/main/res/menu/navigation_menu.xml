@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/mathsOperation"
+        android:title="@string/mathsoperation"/>
     <item
         android:id="@+id/crudOperation"
         android:title="@string/crudoperation"/>

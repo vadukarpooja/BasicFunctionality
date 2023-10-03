@@ -109,6 +109,10 @@ class MainActivity() : AppCompatActivity() {
                     navigationController?.navigate(R.id.updateCountFragment)
                     binding.rootView.closeDrawer(GravityCompat.START)
                 }
+                R.id.mathsOperation ->{
+                    navigationController?.navigate(R.id.mathsOperation2)
+                    binding.rootView.closeDrawer(GravityCompat.START)
+                }
             }
             return@setNavigationItemSelectedListener true
 

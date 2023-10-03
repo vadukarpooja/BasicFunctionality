@@ -4,6 +4,7 @@ import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothProfile
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -35,11 +36,7 @@ open class BluetoothChat : AppCompatActivity() {
         val bluetoothManager =
             applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter:BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        val filter = IntentFilter()
 
-        filter.addAction(BluetoothDevice.ACTION_FOUND)
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
 
         val requestMultiplePermissions =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -62,7 +59,13 @@ open class BluetoothChat : AppCompatActivity() {
                 }
             }
         binding.title.setOnClickListener {
-            getListOfPairedDevices()
+            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            registerReceiver(mReceiver, filter)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                bluetoothAdapter.startDiscovery()
+            }
+
+
         }
 
 
@@ -120,7 +123,6 @@ open class BluetoothChat : AppCompatActivity() {
                                     == PackageManager.PERMISSION_GRANTED)*/
                         ) {
                             bluetoothManager.adapter.startDiscovery()
-                            registerReceiver(mReceiver, filter)
                             if (bluetoothManager.adapter != null) {
                                 if (!bluetoothManager.adapter!!.isEnabled) {
                                     val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -185,15 +187,7 @@ open class BluetoothChat : AppCompatActivity() {
                                 android.Manifest.permission.BLUETOOTH
                             )
                                     == PackageManager.PERMISSION_GRANTED
-                                    ) /*&& (ContextCompat.checkSelfPermission(
-                                this,
-                                android.Manifest.permission.ACCESS_FINE_LOCATION
-                            )
-                                    == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
-                                this,
-                                android.Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                                    == PackageManager.PERMISSION_GRANTED)*/
+                                    )
                         ) {
                             if (bluetoothManager.adapter != null) {
                                 Log.e(
@@ -228,24 +222,37 @@ open class BluetoothChat : AppCompatActivity() {
      private fun getListOfPairedDevices() {
 
     }
+
+     private fun getConnectedDevices(): List<BluetoothDevice?>? {
+        val btManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+         if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+             Log.e(javaClass.simpleName, "getConnectedDevices: "+btManager.getConnectedDevices(BluetoothProfile.GATT) )
+
+        }
+        return btManager.getConnectedDevices(BluetoothProfile.GATT)
+    }
+
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
-            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED == action) {
-                //discovery starts, we can show progress dialog or perform other tasks
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action) {
-                //discovery finishes, dismis progress dialog
-            } else if (BluetoothDevice.ACTION_FOUND == action) {
-                //bluetooth device found
-                val device =
-                    intent.getParcelableExtra<Parcelable>(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
+
+            //Device found
+            if (BluetoothDevice.ACTION_FOUND == action) {
+                // Get the BluetoothDevice object from the Intent
+                val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                // Add the name and address to an array adapter to show in a list
+
                 if (ActivityCompat.checkSelfPermission(
                         applicationContext,
                         Manifest.permission.BLUETOOTH_CONNECT
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     if (device != null) {
-                        Log.e(javaClass.simpleName, "onReceive: "+device.name)
+                        Log.e(javaClass.simpleName, "onReceive: "+device.name )
                     }
                     return
                 }
@@ -253,4 +260,5 @@ open class BluetoothChat : AppCompatActivity() {
             }
         }
     }
+
 }

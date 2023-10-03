@@ -112,7 +112,7 @@
         tools:layout="@layout/fragment_nested_list" />
     <activity
         android:id="@+id/chatConnectionActivity"
-        android:name="com.example.apicalldemo.imagePick.ChatConnectionActivity"
+        android:name="com.example.apicalldemo.imagePick.LoginActivity"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
@@ -120,5 +120,10 @@
         android:name="com.example.apicalldemo.backgrounCountUpdate.service.UpdateCountFragment"
         android:label="fragment_update_count"
         tools:layout="@layout/fragment_update_count" />
+    <fragment
+        android:id="@+id/mathsOperation2"
+        android:name="com.example.apicalldemo.MathsOperation"
+        android:label="fragment_methemetics_opration"
+        tools:layout="@layout/fragment_methemetics_opration" />
 
 </navigation>
